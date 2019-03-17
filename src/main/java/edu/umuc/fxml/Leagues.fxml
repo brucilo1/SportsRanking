@@ -27,6 +27,6 @@
         </columns>
       </TableView>
       <Pane layoutX="7.0" layoutY="510.0" prefHeight="51.0" prefWidth="1083.0" />
-      <Button layoutX="7.0" layoutY="113.0" mnemonicParsing="false" text="Home" />
+      <Button fx:id="btnHome" onAction="#processButtonClickEvents" layoutX="7.0" layoutY="113.0" mnemonicParsing="false" text="Home" />
    </children>
 </AnchorPane>

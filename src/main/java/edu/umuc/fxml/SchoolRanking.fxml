@@ -60,7 +60,7 @@
       <TextField disable="true" layoutX="601.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" />
       <TextField layoutX="801.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" />
       <TextField layoutX="1019.0" layoutY="164.0" prefHeight="25.0" prefWidth="69.0" />
-      <Button layoutX="7.0" layoutY="113.0" mnemonicParsing="false" text="Home" />
+      <Button fx:id="btnHome" onAction="#processButtonClickEvents" layoutX="7.0" layoutY="113.0" mnemonicParsing="false" text="Home" />
       <Label layoutX="538.0" layoutY="166.0" prefHeight="27.0" prefWidth="63.0" text="Win-Loss" textFill="#29288d">
          <font>
             <Font size="13.0" />

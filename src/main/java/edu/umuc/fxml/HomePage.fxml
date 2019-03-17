@@ -32,12 +32,12 @@
                 </Label>
             </children>
         </Pane>
-          <Button fx:id="btnSchoolsRanking" alignment="CENTER" contentDisplay="TOP" layoutX="145.0" layoutY="319.0" mnemonicParsing="false" onAction="#CallMethodHere" prefHeight="157.0" prefWidth="245.0" text="Schools Rankings">
+          <Button fx:id="btnSchoolsRanking" alignment="CENTER" contentDisplay="TOP" layoutX="145.0" layoutY="319.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="157.0" prefWidth="245.0" text="Schools Rankings">
               <graphic>
                   <FontAwesomeIconView fill="#23a353" glyphName="SOCCER_BALL_ALT" size="50" />
               </graphic>
           </Button>
-          <Button fx:id="btnLeagues" alignment="CENTER" contentDisplay="TOP" layoutX="499.0" layoutY="319.0" mnemonicParsing="false" onAction="#CallMethodHere" prefHeight="157.0" prefWidth="257.0" text="Leagues">
+          <Button fx:id="btnLeagues" alignment="CENTER" contentDisplay="TOP" layoutX="499.0" layoutY="319.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="157.0" prefWidth="257.0" text="Leagues">
               <graphic>
                   <FontAwesomeIconView fill="#23a353" glyphName="INSTITUTION" size="50" text="" />
               </graphic>

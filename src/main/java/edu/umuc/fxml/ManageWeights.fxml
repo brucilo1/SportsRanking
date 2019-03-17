@@ -20,7 +20,8 @@
       </Pane>
       <Pane layoutX="7.0" layoutY="501.0" prefHeight="48.0" prefWidth="1081.0">
          <children>
-            <Button layoutX="435.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" text="Save Weights" textFill="#29288d" />
+            <Button layoutX="638.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" text="Save Weights" textFill="#29288d" />
+            <Button layoutX="280.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" text="Reset Weights" textFill="#29288d" />
          </children>
       </Pane>
       <Pane layoutX="1.0" layoutY="109.0" prefHeight="391.0" prefWidth="1102.0">

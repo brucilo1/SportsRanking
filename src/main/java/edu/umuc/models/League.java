@@ -1,12 +1,22 @@
 package edu.umuc.models;
 
 public class League {
+    private String leagueId;
     private String leagueName;
     private Float leagueWeight;
 
-    public League(String leagueName, Float leagueWeight) {
+    public League(String leagueId, String leagueName, Float leagueWeight) {
+        this.leagueId = leagueId;
         this.leagueName = leagueName;
         this.leagueWeight = leagueWeight;
+    }
+
+    public String getLeagueId() {
+        return leagueId;
+    }
+
+    public void setLeagueId(String leagueId) {
+        this.leagueId = leagueId;
     }
 
     public String getLeagueName() {

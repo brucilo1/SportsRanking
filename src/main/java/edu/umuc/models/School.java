@@ -1,16 +1,16 @@
 package edu.umuc.models;
 
-import java.util.Set;
+import java.util.ArrayList;
 
 public class School {
-    private String schoolName;
-    private String urlPath;
-    private Float rankPoints;
-    private Integer wins;
-    private Integer losses;
-    private Float avgPointDifference;
-    private Set<String> opponents;
-    private Integer opponentsTotalWins;
+    private String schoolName = "";
+    private String urlPath = "";
+    private Float rankPoints = 0f;
+    private Integer wins = 0;
+    private Integer losses = 0;
+    private Float avgPointDifference = 0f;
+    ArrayList<String> opponents = new ArrayList<>();
+    private Integer opponentsTotalWins = 0;
     private League league;
 
     public School(String schoolName, String urlPath, League league) {
@@ -67,11 +67,11 @@ public class School {
         this.avgPointDifference = avgPointDifference;
     }
 
-    public Set<String> getOpponents() {
+    public ArrayList<String> getOpponents() {
         return opponents;
     }
 
-    public void setOpponents(Set<String> opponents) {
+    public void setOpponents(ArrayList<String> opponents) {
         this.opponents = opponents;
     }
 
@@ -89,5 +89,38 @@ public class School {
 
     public void setLeague(League league) {
         this.league = league;
+    }
+
+    public void addOpponent(String opponent) {
+            this.opponents.add(opponent);
+    }
+    
+    public void addOpponentWins(int opponentsTotalWins) {
+            this.opponentsTotalWins += opponentsTotalWins;
+    }
+
+    public float pointsForWins() {
+            return (float)(wins * league.getLeagueWeight());
+    }	
+    
+    public float pointsForLosses() {
+            return (float)((losses * (1/league.getLeagueWeight())) * -1);
+    }
+    
+    public float sumOfPoints() {
+            return pointsForWins() + pointsForLosses();
+    }
+    
+    public float pointsFromOpponentWins(RankWeight rankWeight) {
+            return opponentsTotalWins * rankWeight.getOppWins();
+    }
+    
+    public float pointsFromAveragePointDifferential(RankWeight rankWeight) {
+            return (avgPointDifference * rankWeight.getAvgOppDifference());
+    }
+    
+    public float calculateRankPoints(RankWeight rankWeight) {
+            rankPoints = (float)(sumOfPoints() + pointsFromOpponentWins(rankWeight) + pointsFromAveragePointDifferential(rankWeight));
+            return rankPoints;
     }
 }

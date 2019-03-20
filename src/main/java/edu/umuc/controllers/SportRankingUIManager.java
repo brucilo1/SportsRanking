@@ -32,15 +32,15 @@ public class SportRankingUIManager {
     }
 
     private void loadXMLData(){
-        //TODO Replace all this with the actual call to read from the XML file.
-        final List<School> mockedSchools = new ArrayList<>();
-        final League mockedLeague = new League("TestLeague", 0.91F);
-
-        for (int i = 0; i < 20; i++){
-            mockedSchools.add(new School("SchoolName" + i, "schoolUrl" + i, mockedLeague ));
-        }
-
-        setSchools(mockedSchools);
-        setRankWeight(new RankWeight(1F, 1F, 0.2F));
+//        //TODO Replace all this with the actual call to read from the XML file.
+//        final List<School> mockedSchools = new ArrayList<>();
+//        final League mockedLeague = new League("TestLeague", 0.91F);
+//
+//        for (int i = 0; i < 20; i++){
+//            mockedSchools.add(new School("SchoolName" + i, "schoolUrl" + i, mockedLeague ));
+//        }
+//
+//        setSchools(mockedSchools);
+//        setRankWeight(new RankWeight(1F, 1F, 0.2F));
     }
 }

@@ -2,6 +2,8 @@ package edu.umuc.controllers;
 
 import edu.umuc.SportsRankingApp;
 import edu.umuc.models.League;
+import edu.umuc.models.RankWeight;
+import edu.umuc.models.School;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,16 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.Event;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+import org.xml.sax.SAXException;
 
 public class Controller {
     private static final String SCHOOL_RANKING_URL = "src/main/java/edu/umuc/fxml/SchoolRanking.fxml";
@@ -58,6 +70,37 @@ public class Controller {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    void handleMouseClick(Event event) {
+        try {
+            ScrapeData scrapeData = new ScrapeData();
+            ArrayList<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
+            Collections.sort(schools, new Comparator<School>() {
+                public int compare(School school1, School school2) {
+                    return (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100));
+                }
+            });
+            
+            for (School school : schools) {
+                if (school.getWins() != 0 && school.getLosses() != 0) {
+                    System.out.println(school.getSchoolName() + ", League: " + school.getLeague().getLeagueName() + ", Rank Points: " + school.getRankPoints());
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SAXException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XPathExpressionException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (TimeoutException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

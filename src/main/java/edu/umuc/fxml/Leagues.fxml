@@ -19,11 +19,11 @@
             </Label>
          </children>
       </Pane>
-      <TableView fx:id="tbData" layoutX="5.0" layoutY="165.0" prefHeight="343.0" prefWidth="1092.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="165.0">
+      <TableView fx:id="tbLeague" layoutX="5.0" layoutY="165.0" prefHeight="343.0" prefWidth="1092.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="165.0">
         <columns>
-          <TableColumn fx:id="rank" prefWidth="688.0" text="School Name" />
-          <TableColumn fx:id="schoolName" prefWidth="229.0" text="League Name" />
-          <TableColumn fx:id="wins" prefWidth="174.0" text="League Factor" />
+          <TableColumn fx:id="schoolName" prefWidth="688.0" text="School Name" />
+          <TableColumn fx:id="leagueName" prefWidth="229.0" text="League Name" />
+          <TableColumn fx:id="leagueFactor" prefWidth="174.0" text="League Factor" />
         </columns>
       </TableView>
       <Pane layoutX="7.0" layoutY="510.0" prefHeight="51.0" prefWidth="1083.0" />

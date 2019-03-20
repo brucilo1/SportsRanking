@@ -1,12 +1,14 @@
 package edu.umuc.controllers;
 
 import edu.umuc.SportsRankingApp;
+import edu.umuc.models.League;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -17,6 +19,15 @@ public class Controller {
     private static final String SCHOOL_RANKING_URL = "src/main/java/edu/umuc/fxml/SchoolRanking.fxml";
     private static final String LEAGUES_URL = "src/main/java/edu/umuc/fxml/Leagues.fxml";
     private static final String HOME_PAGE_URL = "src/main/java/edu/umuc/fxml/HomePage.fxml";
+
+    private SportRankingUIManager sportRankingUIManager;
+
+    public Controller() {
+        this.sportRankingUIManager = new SportRankingUIManager();
+    }
+
+    @FXML
+    private TableView<League> tbLeague;
 
     @FXML
     private Button btnSchoolsRanking;

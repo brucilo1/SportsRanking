@@ -32,6 +32,7 @@ public class Controller {
     private static final String LEAGUES_URL = "src/main/java/edu/umuc/fxml/Leagues.fxml";
     private static final String HOME_PAGE_URL = "src/main/java/edu/umuc/fxml/HomePage.fxml";
 
+
     private SportRankingUIManager sportRankingUIManager;
 
     public Controller() {

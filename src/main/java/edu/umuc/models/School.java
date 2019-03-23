@@ -12,6 +12,7 @@ public class School {
     ArrayList<String> opponents = new ArrayList<>();
     private Integer opponentsTotalWins = 0;
     private League league;
+    private boolean winLossRecordIncorrect = false;
 
     public School(String schoolName, String urlPath, League league) {
         this.schoolName = schoolName;
@@ -123,4 +124,14 @@ public class School {
             rankPoints = (float)(sumOfPoints(rankWeight) + pointsFromOpponentWins(rankWeight) + pointsFromAveragePointDifferential(rankWeight));
             return rankPoints;
     }
+
+    public boolean isWinLossRecordIncorrect() {
+        return winLossRecordIncorrect;
+    }
+
+    public void setWinLossRecordIncorrect(boolean winLossRecordIncorrect) {
+        this.winLossRecordIncorrect = winLossRecordIncorrect;
+    }
+    
+    
 }

@@ -78,7 +78,7 @@ public class Controller {
     void handleMouseClick(Event event) {
         try {
             ScrapeData scrapeData = new ScrapeData();
-            ArrayList<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
+                ArrayList<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
             Collections.sort(schools, new Comparator<School>() {
                 public int compare(School school1, School school2) {
                     return (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100));
@@ -87,7 +87,7 @@ public class Controller {
             
             for (School school : schools) {
                 if (school.getWins() != 0 && school.getLosses() != 0) {
-                    System.out.println(school.getSchoolName() + ", League: " + school.getLeague().getLeagueName() + ", Rank Points: " + school.getRankPoints());
+                    System.out.println(school.getSchoolName() + ", League: " + school.getLeague().getLeagueName() + ", Rank Points: " + school.getRankPoints() + ", Record incorrect: " + school.isWinLossRecordIncorrect());
                 }
             }
         } catch (IOException ex) {

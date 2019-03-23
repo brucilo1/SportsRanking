@@ -65,6 +65,24 @@ class GetDataThread implements Runnable {
                                     System.out.println(title);
                                 }
 
+                                int recordWins = 0;
+                                int recordLosses = 0;
+                                Elements recordElements = dataPage.getElementsByClass("record");
+                                if (recordElements.size() == 1) {
+                                    Element record = recordElements.get(0);
+                                    String recordText = record.text();
+                                    int colonLocation = recordText.indexOf(":");
+                                    if (colonLocation > 0) {
+                                        recordText = recordText.substring(colonLocation+1);
+                                        int dashLocation = recordText.indexOf("-");
+                                        String winsText = recordText.substring(0, dashLocation).trim();
+                                        String lossesText = recordText.substring(dashLocation+1).trim();
+                                        System.out.println(school.getSchoolName() + " - '" + winsText + "', '" + lossesText + "'"); // TODO: Remove this
+                                        recordWins = cleanScore(winsText);
+                                        recordLosses = cleanScore(lossesText);
+                                    }
+                                }
+
 				Elements scheduleElements = dataPage.getElementsByClass("weekly-schedule");
 				if (scheduleElements.size() > 0) {
 					Element schedule = scheduleElements.get(0);
@@ -120,7 +138,10 @@ class GetDataThread implements Runnable {
 
 					school.setWins(winCount);
 					school.setLosses(lossCount);
-
+                                        
+                                        if (recordWins != winCount || recordLosses != lossCount) {
+                                            school.setWinLossRecordIncorrect(true);
+                                        }
 					averagePointDifference = pointsDifference / (float)gameCount;
 					school.setAvgPointDifference(averagePointDifference);
 				}

@@ -107,8 +107,8 @@ public class School {
             return (float)((losses * (1/league.getLeagueWeight())) * -1);
     }
     
-    public float sumOfPoints() {
-            return pointsForWins() + pointsForLosses();
+    public float sumOfPoints(RankWeight rankWeight) {
+            return (pointsForWins() + pointsForLosses()) * rankWeight.getWinLoss();
     }
     
     public float pointsFromOpponentWins(RankWeight rankWeight) {
@@ -120,7 +120,7 @@ public class School {
     }
     
     public float calculateRankPoints(RankWeight rankWeight) {
-            rankPoints = (float)(sumOfPoints() + pointsFromOpponentWins(rankWeight) + pointsFromAveragePointDifferential(rankWeight));
+            rankPoints = (float)(sumOfPoints(rankWeight) + pointsFromOpponentWins(rankWeight) + pointsFromAveragePointDifferential(rankWeight));
             return rankPoints;
     }
 }

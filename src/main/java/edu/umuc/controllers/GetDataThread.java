@@ -7,6 +7,7 @@ package edu.umuc.controllers;
 
 import edu.umuc.models.School;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 import javax.net.ssl.SSLHandshakeException;
@@ -35,6 +36,7 @@ class GetDataThread implements Runnable {
 		try {
 			setSchoolData();
 		} catch (IOException e) {
+                        System.out.println("Error with school: " + school.getSchoolName());
 			e.printStackTrace();
 		}
 	}
@@ -56,7 +58,12 @@ class GetDataThread implements Runnable {
 				String url = "https://www.washingtonpost.com/allmetsports/" + year + "-" + season + "/" + school.getUrlPath() + "/" + sport + "/";
 
 				Document dataPage = Jsoup.connect(url).timeout(60 * 1000).get();  // 60 Seconds
-				System.out.println(dataPage.title());
+                                String title = dataPage.title();
+                                if (title == null || title.startsWith("404")) {
+                                    System.out.println("Missing page for school: " + school.getSchoolName() + " using URL: " + url);    
+                                } else {
+                                    System.out.println(title);
+                                }
 
 				Elements scheduleElements = dataPage.getElementsByClass("weekly-schedule");
 				if (scheduleElements.size() > 0) {
@@ -83,14 +90,14 @@ class GetDataThread implements Runnable {
 							if ((winOrLoss == 'W' || winOrLoss == 'L') && dashLocation != -1) {
 								int score = 0;
 								int opponentScore = 0;
-								int firstScore = Integer.parseInt(text.substring(3, dashLocation).trim());
+								int firstScore = cleanScore(text.substring(3, dashLocation).trim());
 								String secondHalf = text.substring(dashLocation+1).trim();
 								int spaceLocation = secondHalf.indexOf(" ");
 								if (spaceLocation != -1) {
 									secondHalf = secondHalf.substring(0, spaceLocation).trim();
 								}
 
-								int secondScore = Integer.parseInt(secondHalf);
+								int secondScore = cleanScore(secondHalf);
 
 								if (winOrLoss == 'W') {
 									winCount++;
@@ -117,11 +124,25 @@ class GetDataThread implements Runnable {
 					averagePointDifference = pointsDifference / (float)gameCount;
 					school.setAvgPointDifference(averagePointDifference);
 				}
-			} catch (SocketTimeoutException | SSLHandshakeException e) {
-				isError = true;
-				errorCount++;
-			}
+			} catch (SocketTimeoutException | SSLHandshakeException | ConnectException e) {
+                            isError = true;
+                            errorCount++;
+			} catch (Exception e) {
+                            isError = true;
+                            errorCount++;
+                            System.out.println("Error with school: " + school.getSchoolName());
+                            e.printStackTrace();   
+                        }
 		} while (isError && errorCount < 3); 
 
 	}
+        
+       private int cleanScore (String scoreString) {
+           String cleanString = scoreString;
+           int findRightParentheses = cleanString.indexOf(")");
+           if (findRightParentheses > 0) {
+               cleanString = cleanString.substring(findRightParentheses + 1);
+           }
+           return Integer.parseInt(cleanString.trim());
+       }
 }

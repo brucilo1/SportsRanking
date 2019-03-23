@@ -118,7 +118,8 @@ public class ScrapeData {
 		} else {
 			throw new TimeoutException("Data scrape operation timed out. Check connection and Washington Post website for proper operation.");
 		}
-
+                
+                System.out.println("Done Scraping Data"); // TODO: Remove this line
 		return new ArrayList<School>(schools.values());
 	}
 }

@@ -39,8 +39,8 @@
       </TableView>
       <Pane layoutX="7.0" layoutY="510.0" prefHeight="51.0" prefWidth="1083.0">
          <children>
-            <Button fx:id="rankSchools" onAction="#processButtonClickEvents" layoutX="40.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="132.0" text="Rank Schools" textFill="#29288d" />
-            <Button layoutX="458.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="166.0" text="Rank Calculation" textFill="#29288d" />
+            <Button fx:id="rankSchools" layoutX="40.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="132.0" text="Rank Schools" textFill="#29288d" />
+            <Button fx:id="rankCalc" layoutX="458.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="166.0" text="Rank Calculation" textFill="#29288d" />
             <Button layoutX="888.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" text="Manage Weights" textFill="#29288d" />
          </children>
       </Pane>

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -9,7 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="1102.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.umuc.controllers.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="1102.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.umuc.controllers.Controller">
    <children>
       <Pane prefHeight="109.0" prefWidth="1102.0" style="-fx-background-color: #23a353;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -67,7 +71,7 @@
                   <Font size="19.0" />
                </font>
             </Label>
-            <TextArea layoutX="4.0" layoutY="331.0" prefHeight="116.0" prefWidth="1080.0" text="Points for Win: (Wins * League Factor)&#10;Points for Losses: (-1 * Losses * (1/League Factor))&#10;Sum of Points:  (Points for Win + Points for Losses)&#10;Points from Opponents Wins:  (Weight Opp Points * Opponents Wins)&#10;Points from Average Point Differential:  (Weigh Ave. Points Scored * Avg. Point Differential)&#10;Total Points:  (Sum of Points + Points from Opponents Wins + Points from Avg. Point Differential)" />
+            <TextArea layoutX="4.0" layoutY="331.0" prefHeight="116.0" prefWidth="1080.0" text="Points for Win: (Wins * League Factor)&#10;Points for Losses: (-1 * Losses * (1/League Factor))&#10;Sum of Points:  ((Points for Win + Points for Losses) * Weight Win Loss)&#10;Points from Opponents Wins:  (Weight Opp Points * Opponents Wins)&#10;Points from Average Point Differential:  (Weigh Ave. Points Scored * Avg. Point Differential)&#10;Total Points:  (Sum of Points + Points from Opponents Wins + Points from Avg. Point Differential)" />
          </children>
       </Pane>
    </children>

@@ -30,6 +30,7 @@ public class Controller {
     private static final String SCHOOL_RANKING_URL = "src/main/java/edu/umuc/fxml/SchoolRanking.fxml";
     private static final String LEAGUES_URL = "src/main/java/edu/umuc/fxml/Leagues.fxml";
     private static final String HOME_PAGE_URL = "src/main/java/edu/umuc/fxml/HomePage.fxml";
+    private static final String RANK_CALC_PAGE_URL = "src/main/java/edu/umuc/fxml/RankCalculation.fxml";
 
     public Controller() {
     }
@@ -47,6 +48,9 @@ public class Controller {
     private Button rankSchools;
 
     @FXML
+    private Button rankCalc;
+
+    @FXML
     private void processButtonClickEvents(ActionEvent event) {
         if (event.getSource() == btnSchoolsRanking) {
             loadPage(SCHOOL_RANKING_URL);
@@ -56,6 +60,8 @@ public class Controller {
             loadPage(HOME_PAGE_URL);
         } else if (event.getSource() == rankSchools){
             scrapeData(event);
+        } else if (event.getSource() == rankCalc){
+            loadPage(RANK_CALC_PAGE_URL);
         }
     }
 

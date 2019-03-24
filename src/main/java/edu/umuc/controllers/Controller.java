@@ -9,8 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -32,15 +31,8 @@ public class Controller {
     private static final String LEAGUES_URL = "src/main/java/edu/umuc/fxml/Leagues.fxml";
     private static final String HOME_PAGE_URL = "src/main/java/edu/umuc/fxml/HomePage.fxml";
 
-
-    private SportRankingUIManager sportRankingUIManager;
-
     public Controller() {
-        this.sportRankingUIManager = new SportRankingUIManager();
     }
-
-    @FXML
-    private TableView<League> tbLeague;
 
     @FXML
     private Button btnSchoolsRanking;
@@ -52,6 +44,9 @@ public class Controller {
     private Button btnHome;
 
     @FXML
+    private Button rankSchools;
+
+    @FXML
     private void processButtonClickEvents(ActionEvent event) {
         if (event.getSource() == btnSchoolsRanking) {
             loadPage(SCHOOL_RANKING_URL);
@@ -59,10 +54,12 @@ public class Controller {
             loadPage(LEAGUES_URL);
         } else if (event.getSource() == btnHome){
             loadPage(HOME_PAGE_URL);
+        } else if (event.getSource() == rankSchools){
+            scrapeData(event);
         }
     }
 
-    private void loadPage(String fxmlUrl) {
+    protected void loadPage(String fxmlUrl) {
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
             final Parent schoolRankingPage = fxmlLoader.load(new FileInputStream(new File(fxmlUrl)));
@@ -74,11 +71,16 @@ public class Controller {
         }
     }
     
-    @FXML
-    void handleMouseClick(Event event) {
+    private void scrapeData(Event event) {
         try {
+            final Dialog dialog = new Dialog();
+            dialog.setTitle("Ranking Schools");
+            dialog.setContentText("This process may take a few minutes, please wait...");
+            dialog.show();
             ScrapeData scrapeData = new ScrapeData();
-                ArrayList<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
+            ArrayList<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+            dialog.close();
             Collections.sort(schools, new Comparator<School>() {
                 public int compare(School school1, School school2) {
                     return (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100));

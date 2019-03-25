@@ -12,8 +12,6 @@ package edu.umuc.controllers;
 import edu.umuc.models.League;
 import edu.umuc.models.RankWeight;
 import edu.umuc.models.School;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,17 +36,15 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ScrapeData {
-
+	private static final String HSSRS_PROPERTIES = "/hssrs-properties-v2.xml";
 	//	private HashMap<String, League> leagues = new HashMap<String, League>();
 
 	public ArrayList<School> scrapeData(String year, String season, String sport, RankWeight rankWeight) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, InterruptedException, TimeoutException {
 
 		// TODO: move the next few sections to loadProperties
-		File file = new File("C:\\Users\\jhender1\\Desktop\\hssrs-properties-v2.xml");
-		FileInputStream fileIS = new FileInputStream(file);
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = builderFactory.newDocumentBuilder();
-		Document xmlDocument = builder.parse(fileIS);
+		Document xmlDocument = builder.parse(getClass().getResourceAsStream(HSSRS_PROPERTIES));
 		XPath xPath = XPathFactory.newInstance().newXPath();
 
 		// Load Leagues

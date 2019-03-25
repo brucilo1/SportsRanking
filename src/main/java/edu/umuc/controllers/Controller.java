@@ -1,7 +1,6 @@
 package edu.umuc.controllers;
 
 import edu.umuc.SportsRankingApp;
-import edu.umuc.models.League;
 import edu.umuc.models.RankWeight;
 import edu.umuc.models.School;
 import javafx.event.ActionEvent;
@@ -12,8 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,10 +24,10 @@ import javax.xml.xpath.XPathExpressionException;
 import org.xml.sax.SAXException;
 
 public class Controller {
-    private static final String SCHOOL_RANKING_URL = "src/main/java/edu/umuc/fxml/SchoolRanking.fxml";
-    private static final String LEAGUES_URL = "src/main/java/edu/umuc/fxml/Leagues.fxml";
-    private static final String HOME_PAGE_URL = "src/main/java/edu/umuc/fxml/HomePage.fxml";
-    private static final String RANK_CALC_PAGE_URL = "src/main/java/edu/umuc/fxml/RankCalculation.fxml";
+    public static final String SCHOOL_RANKING_FXML = "/SchoolRanking.fxml";
+    public static final String LEAGUES_FXML = "/Leagues.fxml";
+    public static final String HOME_PAGE_FXML = "/HomePage.fxml";
+    public static final String RANK_CALC_PAGE_FXML = "/RankCalculation.fxml";
 
     public Controller() {
     }
@@ -53,22 +50,22 @@ public class Controller {
     @FXML
     private void processButtonClickEvents(ActionEvent event) {
         if (event.getSource() == btnSchoolsRanking) {
-            loadPage(SCHOOL_RANKING_URL);
+            loadPage(SCHOOL_RANKING_FXML);
         } else if (event.getSource() == btnLeagues){
-            loadPage(LEAGUES_URL);
+            loadPage(LEAGUES_FXML);
         } else if (event.getSource() == btnHome){
-            loadPage(HOME_PAGE_URL);
+            loadPage(HOME_PAGE_FXML);
         } else if (event.getSource() == rankSchools){
             scrapeData(event);
         } else if (event.getSource() == rankCalc){
-            loadPage(RANK_CALC_PAGE_URL);
+            loadPage(RANK_CALC_PAGE_FXML);
         }
     }
 
     protected void loadPage(String fxmlUrl) {
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
-            final Parent schoolRankingPage = fxmlLoader.load(new FileInputStream(new File(fxmlUrl)));
+            final Parent schoolRankingPage = fxmlLoader.load(getClass().getResourceAsStream(fxmlUrl));
             final Stage stage = SportsRankingApp.getPrimaryStage();
             stage.setScene(new Scene(schoolRankingPage));
             stage.show();
@@ -98,18 +95,8 @@ public class Controller {
                     System.out.println(school.getSchoolName() + ", League: " + school.getLeague().getLeagueName() + ", Rank Points: " + school.getRankPoints() + ", Record incorrect: " + school.isWinLossRecordIncorrect());
                 }
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (XPathExpressionException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TimeoutException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException | InterruptedException | TimeoutException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, "Exception thrown during data scraping.", ex);
         }
     }
 }

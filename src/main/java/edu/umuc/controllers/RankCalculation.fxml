@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="1102.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.umuc.controllers.Controller">
+   <children>
+      <Pane prefHeight="109.0" prefWidth="1102.0" style="-fx-background-color: #23a353;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label layoutX="47.0" layoutY="20.0" prefHeight="70.0" prefWidth="360.0" text="Rank Calculation" textFill="WHITE">
+               <font>
+                  <Font name="Times New Roman" size="48.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="1.0" layoutY="109.0" prefHeight="454.0" prefWidth="1102.0">
+         <children>
+            <TableView fx:id="tbSchoolResults" layoutY="89.0" prefHeight="70.0" prefWidth="1092.0">
+               <columns>
+                  <TableColumn fx:id="wins" prefWidth="41.0" text="Wins" />
+                  <TableColumn fx:id="losses" prefWidth="48.0" text="Losses" />
+                  <TableColumn fx:id="leagueName" minWidth="0.0" prefWidth="206.0" text="League Name" />
+                  <TableColumn fx:id="leagueFactor" minWidth="0.0" prefWidth="91.0" text="League Factor" />
+                  <TableColumn fx:id="weightWinLoss" prefWidth="120.0" text="Weight Win-Loss" />
+                  <TableColumn fx:id="weightOppPoints" prefWidth="140.0" text="Weight Opp Points" />
+                  <TableColumn fx:id="weightAvgPointsScored" prefWidth="166.0" text="Weight Ave. Points Scored" />
+                  <TableColumn fx:id="oppWins" minWidth="0.0" prefWidth="126.0" text="Opponents Wins" />
+                  <TableColumn fx:id="avgPointDifferential" prefWidth="153.0" text="Avg. Point Differential" />
+               </columns>
+            </TableView>
+            <Button fx:id="btnHome" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#processButtonClickEvents" text="Home" />
+            <Button fx:id="btnSchoolsRanking" layoutX="85.0" layoutY="14.0" mnemonicParsing="false" onAction="#processButtonClickEvents" text="Schools Ranking" />
+            <Label layoutX="70.0" layoutY="12.0" text="&gt;">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label layoutX="4.0" layoutY="62.0" prefHeight="28.0" prefWidth="1080.0" text="&lt;School Name Here&gt; results">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <TableView fx:id="tbCalculation" layoutY="211.0" prefHeight="70.0" prefWidth="1092.0">
+               <columns>
+                  <TableColumn fx:id="pointsForWin" prefWidth="141.0" text="Points for Win " />
+                  <TableColumn fx:id="pointsForLosses" minWidth="0.0" prefWidth="169.0" text="Points for Losses" />
+                  <TableColumn fx:id="sumOfPoints" minWidth="8.0" prefWidth="138.0" text="Sum of Points" />
+                  <TableColumn fx:id="pointsFromOppWins" minWidth="0.0" prefWidth="223.0" text="Points from Opponents Wins" />
+                  <TableColumn fx:id="pointsFromAvgOppDiff" minWidth="0.0" prefWidth="226.0" text="Points from Avg. Point Differential" />
+                  <TableColumn fx:id="totalPoints" minWidth="0.0" prefWidth="194.0" text="Total Points" />
+               </columns>
+            </TableView>
+            <Label layoutX="7.0" layoutY="303.0" prefHeight="28.0" prefWidth="100.0" text="Explanation">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <Label layoutX="8.0" layoutY="178.0" prefHeight="28.0" prefWidth="100.0" text="Calculation">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+            <TextArea layoutX="4.0" layoutY="331.0" prefHeight="116.0" prefWidth="1080.0" text="Points for Win: (Wins * League Factor)&#10;Points for Losses: (-1 * Losses * (1/League Factor))&#10;Sum of Points:  ((Points for Win + Points for Losses) * Weight Win Loss)&#10;Points from Opponents Wins:  (Weight Opp Points * Opponents Wins)&#10;Points from Average Point Differential:  (Weigh Ave. Points Scored * Avg. Point Differential)&#10;Total Points:  (Sum of Points + Points from Opponents Wins + Points from Avg. Point Differential)" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

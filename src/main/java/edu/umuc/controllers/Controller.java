@@ -28,7 +28,8 @@ public class Controller {
     public static final String LEAGUES_FXML = "/Leagues.fxml";
     public static final String HOME_PAGE_FXML = "/HomePage.fxml";
     public static final String RANK_CALC_PAGE_FXML = "/RankCalculation.fxml";
-
+    private static final String MANAGE_WEIGHTS_FXML = "/ManageWeights.fxml";
+    
     public Controller() {
     }
 
@@ -46,6 +47,23 @@ public class Controller {
 
     @FXML
     private Button rankCalc;
+    
+    @FXML
+    private Button btnManageWeights;
+    
+    @FXML
+    private Button btnResetWeights;
+    
+    // Text Fields
+    @FXML
+    private TextField winLossWeight;
+    
+    @FXML
+    private TextField oppWinsWeight;
+    
+    @FXML
+    private TextField avgPtsDiffWeight;
+
 
     @FXML
     private void processButtonClickEvents(ActionEvent event) {
@@ -59,6 +77,8 @@ public class Controller {
             scrapeData(event);
         } else if (event.getSource() == rankCalc){
             loadPage(RANK_CALC_PAGE_FXML);
+        } else if (event.getSource() == btnManageWeights){
+            loadPage(MANAGE_WEIGHTS_FXML);
         }
     }
 
@@ -98,5 +118,45 @@ public class Controller {
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException | InterruptedException | TimeoutException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, "Exception thrown during data scraping.", ex);
         }
+    }
+    
+    // Save weights manually entered by user
+    @FXML
+    public void handleSaveWeights(){ 
+        
+        // Convert textfield input to float and store new values
+        try{
+        String winLossValue = winLossWeight.getText();
+        Float winLoss = Float.parseFloat(winLossValue);
+        String oppWinsValue = oppWinsWeight.getText();
+        Float oppWins = Float.parseFloat(oppWinsValue);
+        String avgPtsDiffValue = avgPtsDiffWeight.getText();
+        Float avgPtsDiff = Float.parseFloat(avgPtsDiffValue);
+        
+        RankWeight rankWeight = new RankWeight(winLoss, oppWins, avgPtsDiff);
+        winLossWeight.setText(rankWeight.getWinLoss().toString());
+        oppWinsWeight.setText(rankWeight.getOppWins().toString());
+        avgPtsDiffWeight.setText(rankWeight.getAvgOppDifference().toString());
+        } catch (NumberFormatException e){
+            
+            // Display alter window to user if invalid value is entered
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Invalid Value Detected");
+            alert.setContentText("Please only enter numeric values.");
+
+            alert.showAndWait();
+            
+            e.printStackTrace();
+        }
+    } 
+   
+    // Reset weight values on manage weights page to original default values
+    @FXML
+    private void handleResetWeights() {
+        RankWeight rankWeight = new RankWeight();
+        winLossWeight.setText(rankWeight.getWinLoss().toString());
+        oppWinsWeight.setText(rankWeight.getOppWins().toString());
+        avgPtsDiffWeight.setText(rankWeight.getAvgOppDifference().toString());
     }
 }

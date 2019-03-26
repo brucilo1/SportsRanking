@@ -16,22 +16,22 @@
          </children>
       </Pane>
       <TableView fx:id="tbData" layoutX="5.0" layoutY="198.0" prefHeight="310.0" prefWidth="1092.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="198.0">
-        <columns>
-          <TableColumn fx:id="rank" prefWidth="40.0" text="Rank" />
-          <TableColumn fx:id="schoolName" prefWidth="499.0" text="School Name" />
-          <TableColumn fx:id="wins" prefWidth="54.0" text="Wins" />
-          <TableColumn fx:id="losses" prefWidth="75.0" text="Losses" />
-          <TableColumn fx:id="league" minWidth="0.0" prefWidth="127.0" text="League Name" />
-          <TableColumn fx:id="oppWins" minWidth="0.0" prefWidth="89.0" text="Opp. Wins" />
-          <TableColumn fx:id="avgPointDiff" prefWidth="109.0" text="Avg. Point Diff." />
-          <TableColumn fx:id="totalPoints" prefWidth="81.0" text="Total Points" />
-        </columns>
+         <columns>
+            <TableColumn fx:id="rank" prefWidth="40.0" text="Rank" />
+            <TableColumn fx:id="schoolName" prefWidth="499.0" text="School Name" />
+            <TableColumn fx:id="wins" prefWidth="54.0" text="Wins" />
+            <TableColumn fx:id="losses" prefWidth="75.0" text="Losses" />
+            <TableColumn fx:id="league" minWidth="0.0" prefWidth="127.0" text="League Name" />
+            <TableColumn fx:id="oppWins" minWidth="0.0" prefWidth="89.0" text="Opp. Wins" />
+            <TableColumn fx:id="avgPointDiff" prefWidth="109.0" text="Avg. Point Diff." />
+            <TableColumn fx:id="totalPoints" prefWidth="81.0" text="Total Points" />
+         </columns>
       </TableView>
       <Pane layoutX="7.0" layoutY="510.0" prefHeight="51.0" prefWidth="1083.0">
          <children>
             <Button fx:id="rankSchools" layoutX="40.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="132.0" text="Rank Schools" textFill="#29288d" />
             <Button fx:id="rankCalc" layoutX="458.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="166.0" text="Rank Calculation" textFill="#29288d" />
-            <Button layoutX="888.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="154.0" text="Manage Weights" textFill="#29288d" />
+            <Button fx:id="btnManageWeights" layoutX="888.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="154.0" text="Manage Weights" textFill="#29288d" />
          </children>
       </Pane>
       <ChoiceBox id="test" layoutX="56.0" layoutY="167.0" prefHeight="25.0" prefWidth="83.0" />
@@ -52,8 +52,8 @@
          </font>
       </Label>
       <TextField disable="true" layoutX="601.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" />
-      <TextField layoutX="801.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" />
-      <TextField layoutX="1019.0" layoutY="164.0" prefHeight="25.0" prefWidth="69.0" />
+      <TextField disable="true" layoutX="801.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" />
+      <TextField disable="true" layoutX="1019.0" layoutY="164.0" prefHeight="25.0" prefWidth="69.0" />
       <Button fx:id="btnHome" layoutX="7.0" layoutY="113.0" mnemonicParsing="false" onAction="#processButtonClickEvents" text="Home" />
       <Label layoutX="538.0" layoutY="166.0" prefHeight="27.0" prefWidth="63.0" text="Win-Loss" textFill="#29288d">
          <font>

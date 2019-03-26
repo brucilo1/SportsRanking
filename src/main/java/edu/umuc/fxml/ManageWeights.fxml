@@ -20,8 +20,8 @@
       </Pane>
       <Pane layoutX="7.0" layoutY="501.0" prefHeight="48.0" prefWidth="1081.0">
          <children>
-            <Button layoutX="638.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" text="Save Weights" textFill="#29288d" />
-            <Button layoutX="280.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" text="Reset Weights" textFill="#29288d" />
+            <Button fx:id="btnSaveWeights" layoutX="638.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" onAction="#handleSaveWeights" text="Save Weights" textFill="#29288d" />
+            <Button fx:id="btnResetWeights" layoutX="280.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" onAction="#handleResetWeights" text="Reset Weights" textFill="#29288d" />
          </children>
       </Pane>
       <Pane layoutX="1.0" layoutY="109.0" prefHeight="391.0" prefWidth="1102.0">
@@ -36,12 +36,12 @@
                   <Font name="Times New Roman" size="29.0" />
                </font>
             </Label>
-            <TextField layoutX="651.0" layoutY="150.0" />
-            <TextField layoutX="651.0" layoutY="209.0" />
-            <TextField layoutX="651.0" layoutY="270.0" />
-            <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Home" />
-            <Button layoutX="79.0" layoutY="14.0" mnemonicParsing="false" text="Sports Ranking" />
-            <Label layoutX="63.0" layoutY="12.0" text="&gt;">
+            <TextField fx:id="winLossWeight" layoutX="651.0" layoutY="150.0" />
+            <TextField fx:id="oppWinsWeight" layoutX="651.0" layoutY="209.0" />
+            <TextField fx:id="avgPtsDiffWeight" layoutX="651.0" layoutY="270.0" />
+            <Button fx:id="btnHome" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#processButtonClickEvents" text="Home" />
+            <Button fx:id="btnSchoolsRanking" layoutX="85.0" layoutY="14.0" mnemonicParsing="false" onAction="#processButtonClickEvents" text="Schools Ranking" />
+            <Label layoutX="70.0" layoutY="12.0" text="&gt;">
                <font>
                   <Font size="20.0" />
                </font>

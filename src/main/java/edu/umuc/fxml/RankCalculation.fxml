@@ -30,13 +30,13 @@
                   <TableColumn fx:id="avgPointDifferential" prefWidth="153.0" text="Avg. Point Differential" />
                </columns>
             </TableView>
-            <Button layoutX="8.0" layoutY="10.0" mnemonicParsing="false" text="Home" />
-            <Label layoutX="60.0" layoutY="8.0" text="&gt;">
+            <Button fx:id="btnHome" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#processButtonClickEvents" text="Home" />
+            <Button fx:id="btnSchoolsRanking" layoutX="85.0" layoutY="14.0" mnemonicParsing="false" onAction="#processButtonClickEvents" text="Schools Ranking" />
+            <Label layoutX="70.0" layoutY="12.0" text="&gt;">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button layoutX="74.0" layoutY="11.0" mnemonicParsing="false" text="Sports Ranking" />
             <Label layoutX="4.0" layoutY="62.0" prefHeight="28.0" prefWidth="1080.0" text="&lt;School Name Here&gt; results">
                <font>
                   <Font size="19.0" />

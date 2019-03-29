@@ -5,6 +5,7 @@ import edu.umuc.models.RankWeight;
 import edu.umuc.models.School;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SportRankingUIManager {
@@ -42,6 +43,14 @@ public class SportRankingUIManager {
        final List<School> mockedSchools = new ArrayList<>();
        final League mockedLeague = new League("1", "TestLeague", 0.91F);
        for (int i = 0; i < 20; i++){
+           final School school = new School("SchoolName" + i, "schoolUrl" + i, mockedLeague );
+           school.setWins(i);
+           school.setLosses(i);
+           school.setAvgPointDifference(i + 0.5F);
+           school.setWinLossRecordIncorrect(false);
+           school.setUrlPath("Url Path");
+           school.setOpponents(new ArrayList<>(Arrays.asList("Opponent1", "Opponent2")));
+           school.setOpponentsTotalWins(i);
            mockedSchools.add(new School("SchoolName" + i, "schoolUrl" + i, mockedLeague ));
        }
        setSchools(mockedSchools);

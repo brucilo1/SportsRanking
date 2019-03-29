@@ -73,8 +73,6 @@ public class Controller {
             loadPage(LEAGUES_FXML);
         } else if (event.getSource() == btnHome){
             loadPage(HOME_PAGE_FXML);
-        } else if (event.getSource() == rankSchools){
-            scrapeData(event);
         } else if (event.getSource() == rankCalc){
             loadPage(RANK_CALC_PAGE_FXML);
         } else if (event.getSource() == btnManageWeights){
@@ -91,32 +89,6 @@ public class Controller {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-    
-    private void scrapeData(Event event) {
-        try {
-            final Dialog dialog = new Dialog();
-            dialog.setTitle("Ranking Schools");
-            dialog.setContentText("This process may take a few minutes, please wait...");
-            dialog.show();
-            ScrapeData scrapeData = new ScrapeData();
-            ArrayList<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
-            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
-            dialog.close();
-            Collections.sort(schools, new Comparator<School>() {
-                public int compare(School school1, School school2) {
-                    return (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100));
-                }
-            });
-            
-            for (School school : schools) {
-                if (school.getWins() != 0 && school.getLosses() != 0) {
-                    System.out.println(school.getSchoolName() + ", League: " + school.getLeague().getLeagueName() + ", Rank Points: " + school.getRankPoints() + ", Record incorrect: " + school.isWinLossRecordIncorrect());
-                }
-            }
-        } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException | InterruptedException | TimeoutException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, "Exception thrown during data scraping.", ex);
         }
     }
     

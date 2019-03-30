@@ -7,6 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="1102.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.umuc.controllers.SchoolRankingController">
    <children>
+      <Pane layoutY="109.0" prefHeight="400.0" prefWidth="1102.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
       <Pane prefHeight="109.0" prefWidth="1102.0" style="-fx-background-color: #23a353;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="47.0" layoutY="20.0" prefHeight="70.0" prefWidth="368.0" text="Schools Ranking" textFill="WHITE">
@@ -28,21 +29,21 @@
             <TableColumn fx:id="totalPoints" prefWidth="81.0" text="Total Points" />
          </columns>
       </TableView>
-      <Pane layoutX="7.0" layoutY="510.0" prefHeight="51.0" prefWidth="1083.0" AnchorPane.bottomAnchor="2.0">
+      <Pane layoutX="7.0" layoutY="510.0" prefHeight="51.0" prefWidth="1083.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Button fx:id="rankSchools" layoutX="40.0" layoutY="3.0" mnemonicParsing="false" onAction="#processRankSchoolsEvent" prefHeight="42.0" prefWidth="132.0" text="Rank Schools" textFill="#29288d" />
             <Button fx:id="rankCalc" layoutX="458.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="166.0" text="Rank Calculation" textFill="#29288d" />
             <Button fx:id="btnManageWeights" layoutX="888.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="154.0" text="Manage Weights" textFill="#29288d" />
          </children>
       </Pane>
-      <ChoiceBox fx:id="yearChoice" layoutX="56.0" layoutY="167.0" prefHeight="25.0" prefWidth="83.0" />
-      <ChoiceBox fx:id="sportChoice" layoutX="187.0" layoutY="167.0" prefWidth="150.0" />
-      <Label layoutX="22.0" layoutY="166.0" prefHeight="27.0" prefWidth="42.0" text="Year" textFill="#29288d">
+      <ChoiceBox fx:id="yearChoice" layoutX="56.0" layoutY="160.0" prefHeight="25.0" prefWidth="83.0" />
+      <ChoiceBox fx:id="sportChoice" layoutX="187.0" layoutY="160.0" prefWidth="150.0" />
+      <Label layoutX="22.0" layoutY="159.0" prefHeight="27.0" prefWidth="42.0" text="Year" textFill="#29288d">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="145.0" layoutY="166.0" prefHeight="27.0" prefWidth="42.0" text="Sport" textFill="#29288d">
+      <Label layoutX="145.0" layoutY="159.0" prefHeight="27.0" prefWidth="42.0" text="Sport" textFill="#29288d">
          <font>
             <Font size="13.0" />
          </font>
@@ -52,21 +53,21 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <TextField disable="true" layoutX="601.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" />
-      <TextField disable="true" layoutX="801.0" layoutY="167.0" prefHeight="25.0" prefWidth="69.0" />
-      <TextField disable="true" layoutX="1019.0" layoutY="164.0" prefHeight="25.0" prefWidth="69.0" />
+      <TextField disable="true" layoutX="601.0" layoutY="160.0" prefHeight="25.0" prefWidth="69.0" />
+      <TextField disable="true" layoutX="801.0" layoutY="160.0" prefHeight="25.0" prefWidth="69.0" />
+      <TextField disable="true" layoutX="1019.0" layoutY="157.0" prefHeight="25.0" prefWidth="69.0" />
       <Button fx:id="btnHome" layoutX="7.0" layoutY="113.0" mnemonicParsing="false" onAction="#processButtonClickEvents" text="Home" />
-      <Label layoutX="538.0" layoutY="166.0" prefHeight="27.0" prefWidth="63.0" text="Win-Loss" textFill="#29288d">
+      <Label layoutX="538.0" layoutY="159.0" prefHeight="27.0" prefWidth="63.0" text="Win-Loss" textFill="#29288d">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="698.0" layoutY="166.0" prefHeight="27.0" prefWidth="104.0" text="Opponents Wins" textFill="#29288d">
+      <Label layoutX="698.0" layoutY="159.0" prefHeight="27.0" prefWidth="104.0" text="Opponents Wins" textFill="#29288d">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="892.0" layoutY="163.0" prefHeight="27.0" prefWidth="127.0" text="Avg. Point Difference" textFill="#29288d">
+      <Label layoutX="892.0" layoutY="156.0" prefHeight="27.0" prefWidth="127.0" text="Avg. Point Difference" textFill="#29288d">
          <font>
             <Font size="13.0" />
          </font>

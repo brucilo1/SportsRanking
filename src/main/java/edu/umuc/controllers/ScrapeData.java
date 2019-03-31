@@ -13,9 +13,7 @@ import edu.umuc.models.League;
 import edu.umuc.models.RankWeight;
 import edu.umuc.models.School;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -38,6 +36,32 @@ import org.xml.sax.SAXException;
 public class ScrapeData {
 	private static final String HSSRS_PROPERTIES = "/hssrs-properties-v2.xml";
 	//	private HashMap<String, League> leagues = new HashMap<String, League>();
+
+	public List<String> scrapeSportsData() throws ParserConfigurationException, IOException, SAXException, XPathExpressionException {
+		List<String> sports = new ArrayList<>();
+		String sportsExpression = "/hssrs/sports/sport";
+
+		// TODO: move the next few sections to loadProperties
+		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = builderFactory.newDocumentBuilder();
+		Document xmlDocument = builder.parse(getClass().getResourceAsStream(HSSRS_PROPERTIES));
+		XPath xPath = XPathFactory.newInstance().newXPath();
+
+		NodeList sportsNodeList = (NodeList) xPath.compile(sportsExpression).evaluate(xmlDocument, XPathConstants.NODESET);
+
+		for (int i = 0; i < sportsNodeList.getLength(); i++) {
+			Node nNode = sportsNodeList.item(i);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) nNode;
+				String name = element.getElementsByTagName("name").item(0).getTextContent();
+				if (name != null && !name.isEmpty()) {
+					sports.add(name);
+				}
+			}
+		}
+		Collections.sort(sports);
+		return sports;
+	}
 
 	public ArrayList<School> scrapeData(String year, String season, String sport, RankWeight rankWeight) throws IOException, ParserConfigurationException, SAXException, XPathExpressionException, InterruptedException, TimeoutException {
 

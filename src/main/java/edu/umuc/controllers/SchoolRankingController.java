@@ -19,6 +19,7 @@ import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -27,6 +28,8 @@ import java.util.logging.Logger;
 public class SchoolRankingController extends Controller implements Initializable {
 
     private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+	private final ScrapeData scrapeData = new ScrapeData();
+    private static final int OLDEST_YEAR = 2015;
     
     @FXML
     private TableView<SchoolRankingController.FXSchoolRankingTable> tbSchoolRanking;
@@ -72,6 +75,20 @@ public class SchoolRankingController extends Controller implements Initializable
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+		List<String> yearList = new ArrayList<>();
+        for (int year = LocalDate.now().getYear(); year >= OLDEST_YEAR; year--) {
+            yearList.add(String.valueOf(year));
+        }
+        yearChoice.setItems((FXCollections.observableArrayList(yearList)));
+        yearChoice.getSelectionModel().selectFirst();
+
+        try {
+            sportChoice.setItems(FXCollections.observableArrayList(scrapeData.scrapeSportsData()));
+            sportChoice.getSelectionModel().selectFirst();
+        } catch (Exception ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, "Exception thrown during data scraping.", ex);
+        }
+		
         lblWinLoss.setText(decimalFormat.format(1.1));
         lblOppWins.setText(decimalFormat.format(.1));
         lblAvgPointDiff.setText(decimalFormat.format(.15));
@@ -106,7 +123,6 @@ public class SchoolRankingController extends Controller implements Initializable
             dialog.show();
 
             //Scrapes data
-            final ScrapeData scrapeData = new ScrapeData();
             final ArrayList<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
 
             dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);

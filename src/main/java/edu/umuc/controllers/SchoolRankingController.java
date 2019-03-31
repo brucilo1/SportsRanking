@@ -18,6 +18,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -25,6 +26,8 @@ import java.util.logging.Logger;
 
 public class SchoolRankingController extends Controller implements Initializable {
 
+    private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+    
     @FXML
     private TableView<SchoolRankingController.FXSchoolRankingTable> tbSchoolRanking;
 
@@ -58,8 +61,21 @@ public class SchoolRankingController extends Controller implements Initializable
     @FXML
     public ChoiceBox<String> sportChoice;
 
+    @FXML
+    private Label lblWinLoss;
+    
+    @FXML
+    private Label lblOppWins;
+
+    @FXML
+    private Label lblAvgPointDiff;
+    
     @Override
-    public void initialize(URL location, ResourceBundle resources) {}
+    public void initialize(URL location, ResourceBundle resources) {
+        lblWinLoss.setText(decimalFormat.format(1.1));
+        lblOppWins.setText(decimalFormat.format(.1));
+        lblAvgPointDiff.setText(decimalFormat.format(.15));
+    }
 
     @FXML
     private void processRankSchoolsEvent(ActionEvent event) {

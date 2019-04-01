@@ -1,7 +1,11 @@
 package edu.umuc.controllers;
 
 import edu.umuc.models.RankWeight;
+import edu.umuc.models.RankWeightConstruct;
 import edu.umuc.models.School;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,16 +21,20 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 public class SchoolRankingController extends Controller implements Initializable {
 
     private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+    private static String savedRankWeights ="savedRankWeight.yaml";
     
     @FXML
     private TableView<SchoolRankingController.FXSchoolRankingTable> tbSchoolRanking;
@@ -72,9 +80,22 @@ public class SchoolRankingController extends Controller implements Initializable
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        lblWinLoss.setText(decimalFormat.format(1.1));
-        lblOppWins.setText(decimalFormat.format(.1));
-        lblAvgPointDiff.setText(decimalFormat.format(.15));
+        
+        // Loads the saved weights YAML and sets values to associated
+        // fields on weights page init
+        Yaml yaml = new Yaml(new Constructor(RankWeightConstruct.class));
+        InputStream in = null;
+        RankWeightConstruct rankWeight;
+        try {
+            in = new FileInputStream(new File(savedRankWeights));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ManageWeightsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        rankWeight = (RankWeightConstruct) yaml.load(in);
+        
+        lblWinLoss.setText(decimalFormat.format(rankWeight.getWinLoss()));
+        lblOppWins.setText(decimalFormat.format(rankWeight.getOppWins()));
+        lblAvgPointDiff.setText(decimalFormat.format(rankWeight.getAvgOppDifference()));
     }
 
     @FXML

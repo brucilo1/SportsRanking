@@ -1,6 +1,7 @@
 package edu.umuc.controllers;
 
 import edu.umuc.models.RankWeight;
+import edu.umuc.models.RankWeightConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,6 +13,8 @@ import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -28,7 +31,8 @@ import org.yaml.snakeyaml.constructor.Constructor;
 public class ManageWeightsController extends Controller implements Initializable {
     
     private DecimalFormat df = new DecimalFormat( "0.00" );
-    private static String yamlLocation="defaultRankWeight.yaml";
+    private static String defaultRankWeights ="defaultRankWeight.yaml";
+    private static String savedRankWeights ="savedRankWeight.yaml";
     
     // Text Fields
     @FXML
@@ -46,10 +50,21 @@ public class ManageWeightsController extends Controller implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
-        // TO DO: Replace hardcoded values with values read from file
-        winLossWeight.setText(df.format(0.75));
-        oppWinsWeight.setText(df.format(.1));
-        avgPtsDiffWeight.setText(df.format(.15));    
+        // Loads the saved weights YAML and sets values to associated
+        // fields on weights page init
+        Yaml yaml = new Yaml(new Constructor(RankWeightConstruct.class));
+        InputStream in = null;
+        RankWeightConstruct rankWeight;
+        try {
+            in = new FileInputStream(new File(savedRankWeights));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ManageWeightsController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        rankWeight = (RankWeightConstruct) yaml.load(in);
+
+        winLossWeight.setText(df.format(rankWeight.getWinLoss()));
+        oppWinsWeight.setText(df.format(rankWeight.getOppWins()));
+        avgPtsDiffWeight.setText(df.format(rankWeight.getAvgOppDifference())); 
     }
     
     // Save weights manually entered by user
@@ -70,10 +85,9 @@ public class ManageWeightsController extends Controller implements Initializable
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         Yaml yaml = new Yaml(options);
         String output = yaml.dump(savedRankWeight);
-        System.out.println(output);
         
         // Write saved weight info to file
-        FileWriter writer = new FileWriter("savedRankWeight.yaml");
+        FileWriter writer = new FileWriter(savedRankWeights);
         yaml.dump(savedRankWeight, writer);
         
         winLossWeight.setText(df.format(savedRankWeight.getWinLoss()));
@@ -96,25 +110,25 @@ public class ManageWeightsController extends Controller implements Initializable
     @FXML
     private void handleResetWeights() throws FileNotFoundException, IOException {
         
-        //TO DO: load rank weight values from YAML file and reset weights to default
-        
-        //Code from James
-	// Reads defaultRankedWeights.yaml file to the defaultRankWeight object
-//	Yaml defaultRankWeightYaml = new Yaml(new Constructor(RankWeight.class));
-//	File defaultRankWeightYamlFile = new File("defaultRankWeight.yaml");
-//	FileInputStream defaultRankWeightYamlInputStream = new FileInputStream(defaultRankWeightYamlFile);
-//	RankWeight defaultRankWeight = defaultRankWeightYaml.load(defaultRankWeightYamlInputStream);
-//	System.out.println(defaultRankWeight.toString());
-
-        // This will currently only load the strings of each value, minus the float values
-        Yaml yaml = new Yaml(new Constructor(Collection.class));
-        InputStream in = null;
-        Collection<RankWeight> rankWeights;
-        in = new FileInputStream(new File(yamlLocation));
-        rankWeights = (Collection<RankWeight>) yaml.load(in);
+        // Loads the default weights YAML file info and sets text boxes
+        // to data of each associated value
+        Yaml yaml = new Yaml(new Constructor(RankWeightConstruct.class));
+        RankWeightConstruct rankWeight;
+        InputStream in = new FileInputStream(new File(defaultRankWeights));
+        rankWeight = (RankWeightConstruct) yaml.load(in);
         in.close();
-        System.out.println(rankWeights);
+
+        winLossWeight.setText(df.format(rankWeight.getWinLoss()));
+        oppWinsWeight.setText(df.format(rankWeight.getOppWins()));
+        avgPtsDiffWeight.setText(df.format(rankWeight.getAvgOppDifference()));
         
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        
+        // "Autosave" default values on reset
+        FileWriter writer = new FileWriter(savedRankWeights);
+        yaml.dump(rankWeight, writer);
                 
     }
 }
+

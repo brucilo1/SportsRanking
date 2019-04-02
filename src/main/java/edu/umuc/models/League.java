@@ -1,9 +1,12 @@
 package edu.umuc.models;
 
+import java.util.List;
+
 public class League {
     private String leagueId;
     private String leagueName;
     private Float leagueWeight;
+    private List<String> schools;
 
     public League(String leagueId, String leagueName, Float leagueWeight) {
         this.leagueId = leagueId;
@@ -35,4 +38,15 @@ public class League {
         this.leagueWeight = leagueWeight;
     }
 
+    public List<String> getSchools() {
+        return schools;
+    }
+
+    public void setSchools(List<String> schools) {
+        this.schools = schools;
+    }
+
+    public boolean containsSchool(String schoolName) {
+        return schools.stream().anyMatch(school -> school.equals(schoolName));
+    }
 }

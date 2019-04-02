@@ -16,11 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPathExpressionException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -114,12 +110,12 @@ public class SchoolRankingController extends Controller implements Initializable
         avgPointDiff.setCellValueFactory(new PropertyValueFactory<>("avgPointDiff"));
         totalPoints.setCellValueFactory(new PropertyValueFactory<>("totalPoints"));
 
+        //List that populates the UI Table
         final ObservableList<SchoolRankingController.FXSchoolRankingTable> rankedSchools = FXCollections.observableArrayList();
 
-        // Mocked up data
-        //final List<School> schools = SportRankingUIManager.getSingletonInstance().getSchools();
-
         try {
+
+            final SportRankingUIManager sportRankingUIManager = SportRankingUIManager.getSingletonInstance();
             final Dialog dialog = new Dialog();
 
             dialog.setTitle("Ranking Schools");
@@ -128,7 +124,7 @@ public class SchoolRankingController extends Controller implements Initializable
 
             //Scrapes data
             final ScrapeData scrapeData = new ScrapeData();
-            final ArrayList<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
+            final List<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
 
             dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             dialog.close();
@@ -137,15 +133,24 @@ public class SchoolRankingController extends Controller implements Initializable
             schools.sort((school1, school2) -> (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100)));
 
             //Output schools with wrong information
-            schools.stream().filter(school -> school.getWins() != 0 && school.getLosses() != 0).map(school -> school.getSchoolName() + ", League: " + school.getLeague().getLeagueName() + ", Rank Points: " + school.getRankPoints() + ", Record incorrect: " + school.isWinLossRecordIncorrect()).forEach(System.out::println);
+            schools.stream()
+                    .filter(school -> school.getWins() != 0 && school.getLosses() != 0)
+                    .map(school -> school.getSchoolName()
+                            + ", League: " + sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName())
+                            + ", Rank Points: " + school.getRankPoints()
+                            + ", Record incorrect: " + school.isWinLossRecordIncorrect())
+                    .forEach(System.out::println);
 
-            schools.forEach(school -> rankedSchools.add(new FXSchoolRankingTable(schools.indexOf(school), school.getSchoolName(),
-                    school.getWins(), school.getLosses(), school.getLeague().getLeagueName(),
-                    school.getOpponentsTotalWins(), school.getAvgPointDifference(), school.getRankPoints())));
+            //Populating the Ranked School List
+            schools.forEach(school -> {
+                rankedSchools.add(new FXSchoolRankingTable(schools.indexOf(school), school.getSchoolName(),
+                        school.getWins(), school.getLosses(), sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName()),
+                        school.getOpponentsTotalWins(), school.getAvgPointDifference(), school.getRankPoints()));
+            });
 
             tbSchoolRanking.setItems(rankedSchools);
 
-        } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException | InterruptedException | TimeoutException ex) {
+        } catch (InterruptedException | TimeoutException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, "Exception thrown during data scraping.", ex);
         }
     }

@@ -3,21 +3,19 @@ package edu.umuc.models;
 import java.util.ArrayList;
 
 public class School {
-    private String schoolName = "";
-    private String urlPath = "";
+    private String schoolName;
+    private String urlPath;
     private Float rankPoints = 0f;
     private Integer wins = 0;
     private Integer losses = 0;
     private Float avgPointDifference = 0f;
-    ArrayList<String> opponents = new ArrayList<>();
+    private ArrayList<String> opponents = new ArrayList<>();
     private Integer opponentsTotalWins = 0;
-    private League league;
     private boolean winLossRecordIncorrect = false;
 
-    public School(String schoolName, String urlPath, League league) {
+    public School(String schoolName, String urlPath) {
         this.schoolName = schoolName;
         this.urlPath = urlPath;
-        this.league = league;
     }
 
     public String getSchoolName() {
@@ -84,45 +82,37 @@ public class School {
         this.opponentsTotalWins = opponentsTotalWins;
     }
 
-    public League getLeague() {
-        return league;
-    }
-
-    public void setLeague(League league) {
-        this.league = league;
-    }
-
     public void addOpponent(String opponent) {
             this.opponents.add(opponent);
     }
-    
+
     public void addOpponentWins(int opponentsTotalWins) {
-            this.opponentsTotalWins += opponentsTotalWins;
+        this.opponentsTotalWins += opponentsTotalWins;
     }
 
-    public float pointsForWins() {
-            return (float)(wins * league.getLeagueWeight());
-    }	
-    
-    public float pointsForLosses() {
-            return (float)((losses * (1/league.getLeagueWeight())) * -1);
+    public float pointsForWins(Float leagueWeight) {
+        return wins * leagueWeight;
     }
-    
-    public float sumOfPoints(RankWeight rankWeight) {
-            return (pointsForWins() + pointsForLosses()) * rankWeight.getWinLoss();
+
+    public float pointsForLosses(Float leagueWeight) {
+        return (losses * (1/leagueWeight)) * -1;
     }
-    
+
+    public float sumOfPoints(RankWeight rankWeight, Float leagueWeight) {
+        return (pointsForWins(leagueWeight) + pointsForLosses(leagueWeight)) * rankWeight.getWinLoss();
+    }
+
     public float pointsFromOpponentWins(RankWeight rankWeight) {
-            return opponentsTotalWins * rankWeight.getOppWins();
+        return opponentsTotalWins * rankWeight.getOppWins();
     }
-    
+
     public float pointsFromAveragePointDifferential(RankWeight rankWeight) {
-            return (avgPointDifference * rankWeight.getAvgOppDifference());
+        return (avgPointDifference * rankWeight.getAvgOppDifference());
     }
-    
-    public float calculateRankPoints(RankWeight rankWeight) {
-            rankPoints = (float)(sumOfPoints(rankWeight) + pointsFromOpponentWins(rankWeight) + pointsFromAveragePointDifferential(rankWeight));
-            return rankPoints;
+
+    public float calculateRankPoints(RankWeight rankWeight, Float leagueWeight) {
+        rankPoints = sumOfPoints(rankWeight, leagueWeight) + pointsFromOpponentWins(rankWeight) + pointsFromAveragePointDifferential(rankWeight);
+        return rankPoints;
     }
 
     public boolean isWinLossRecordIncorrect() {
@@ -132,6 +122,4 @@ public class School {
     public void setWinLossRecordIncorrect(boolean winLossRecordIncorrect) {
         this.winLossRecordIncorrect = winLossRecordIncorrect;
     }
-    
-    
 }

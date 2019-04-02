@@ -11,7 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class LeagueController extends Controller implements Initializable {
 
@@ -41,7 +41,10 @@ public class LeagueController extends Controller implements Initializable {
         lgLeagueFactor.setCellValueFactory(new PropertyValueFactory<>("lgLeagueFactor"));
 
         final ObservableList<FXLeagueTable> studentsModels = FXCollections.observableArrayList();
-        SportRankingUIManager.getSingletonInstance().getSchools().forEach(school -> studentsModels.add(new FXLeagueTable(school.getSchoolName(), school.getLeague().getLeagueName(), school.getLeague().getLeagueWeight())));
+
+        SportRankingUIManager.getSingletonInstance().getLeagues().forEach(league -> league.getSchools().forEach(school -> {
+            studentsModels.add(new FXLeagueTable(school, league.getLeagueName(), league.getLeagueWeight()));
+        }));
 
         tbLeague.setItems(studentsModels);
     }

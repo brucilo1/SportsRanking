@@ -6,9 +6,6 @@ public class RankWeight {
     private Float avgOppDifference;
 
     public RankWeight() {
-        this.winLoss = 0.75f;
-        this.oppWins = 0.1f;
-        this.avgOppDifference = 0.15f;
     }
 
     public RankWeight(Float winLoss, Float oppWins, Float avgOppDifference) {

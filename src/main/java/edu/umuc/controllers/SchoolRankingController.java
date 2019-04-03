@@ -1,11 +1,7 @@
 package edu.umuc.controllers;
 
 import edu.umuc.models.RankWeight;
-import edu.umuc.models.RankWeightConstruct;
 import edu.umuc.models.School;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,20 +13,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 
 public class SchoolRankingController extends Controller implements Initializable {
 
-    private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
-    private static String savedRankWeights ="savedRankWeight.yaml";
+    private final static DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+    private final static String SAVED_RANK_WEIGHT_YAML ="/savedRankWeight.yaml";
     
     @FXML
     private TableView<SchoolRankingController.FXSchoolRankingTable> tbSchoolRanking;
@@ -76,19 +69,12 @@ public class SchoolRankingController extends Controller implements Initializable
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
-        // Loads the saved weights YAML and sets values to associated
-        // fields on weights page init
-        Yaml yaml = new Yaml(new Constructor(RankWeightConstruct.class));
-        InputStream in = null;
-        RankWeightConstruct rankWeight;
-        try {
-            in = new FileInputStream(new File(savedRankWeights));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ManageWeightsController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        rankWeight = (RankWeightConstruct) yaml.load(in);
-        
+        initializeLabels();
+    }
+
+    private void initializeLabels() {
+        final RankWeight rankWeight = loadRankWeight(SAVED_RANK_WEIGHT_YAML);
+
         lblWinLoss.setText(decimalFormat.format(rankWeight.getWinLoss()));
         lblOppWins.setText(decimalFormat.format(rankWeight.getOppWins()));
         lblAvgPointDiff.setText(decimalFormat.format(rankWeight.getAvgOppDifference()));
@@ -142,11 +128,9 @@ public class SchoolRankingController extends Controller implements Initializable
                     .forEach(System.out::println);
 
             //Populating the Ranked School List
-            schools.forEach(school -> {
-                rankedSchools.add(new FXSchoolRankingTable(schools.indexOf(school), school.getSchoolName(),
-                        school.getWins(), school.getLosses(), sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName()),
-                        school.getOpponentsTotalWins(), school.getAvgPointDifference(), school.getRankPoints()));
-            });
+            schools.forEach(school -> rankedSchools.add(new FXSchoolRankingTable(schools.indexOf(school) + 1, school.getSchoolName(),
+                    school.getWins(), school.getLosses(), sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName()),
+                    school.getOpponentsTotalWins(), school.getAvgPointDifference(), school.getRankPoints())));
 
             tbSchoolRanking.setItems(rankedSchools);
 

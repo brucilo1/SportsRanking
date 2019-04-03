@@ -6,6 +6,8 @@ import edu.umuc.models.School;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+
+import edu.umuc.models.Sport;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -31,7 +34,7 @@ public class SchoolRankingController extends Controller implements Initializable
 
     private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
     private static String savedRankWeights ="savedRankWeight.yaml";
-    
+
     @FXML
     private TableView<SchoolRankingController.FXSchoolRankingTable> tbSchoolRanking;
 
@@ -63,7 +66,7 @@ public class SchoolRankingController extends Controller implements Initializable
     public ChoiceBox<String> yearChoice;
 
     @FXML
-    public ChoiceBox<String> sportChoice;
+    public ChoiceBox<Sport> sportChoice;
 
     @FXML
     private Label lblWinLoss;
@@ -76,6 +79,17 @@ public class SchoolRankingController extends Controller implements Initializable
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+	
+		List<String> yearList = new ArrayList<>();
+		int startingYear = Integer.valueOf(SportRankingUIManager.getSingletonInstance().getGeneralProperties().getStartingYear());
+        for (int year = LocalDate.now().getYear(); year >= startingYear; year--) {
+            yearList.add(String.valueOf(year));
+        }
+        yearChoice.setItems((FXCollections.observableArrayList(yearList)));
+        yearChoice.getSelectionModel().selectFirst();
+
+        sportChoice.setItems(FXCollections.observableArrayList(SportRankingUIManager.getSingletonInstance().getSports()));
+        sportChoice.getSelectionModel().selectFirst();
         
         // Loads the saved weights YAML and sets values to associated
         // fields on weights page init

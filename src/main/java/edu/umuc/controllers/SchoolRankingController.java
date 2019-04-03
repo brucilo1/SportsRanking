@@ -2,6 +2,7 @@ package edu.umuc.controllers;
 
 import edu.umuc.models.RankWeight;
 import edu.umuc.models.School;
+import edu.umuc.models.Sport;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -15,7 +16,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,7 +60,7 @@ public class SchoolRankingController extends Controller implements Initializable
     public ChoiceBox<String> yearChoice;
 
     @FXML
-    public ChoiceBox<String> sportChoice;
+    public ChoiceBox<Sport> sportChoice;
 
     @FXML
     private Label lblWinLoss;
@@ -70,6 +74,17 @@ public class SchoolRankingController extends Controller implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeLabels();
+
+        List<String> yearList = new ArrayList<>();
+        int startingYear = Integer.valueOf(SportRankingUIManager.getSingletonInstance().getGeneralProperties().getStartingYear());
+        for (int year = LocalDate.now().getYear(); year >= startingYear; year--) {
+            yearList.add(String.valueOf(year));
+        }
+        yearChoice.setItems((FXCollections.observableArrayList(yearList)));
+        yearChoice.getSelectionModel().selectFirst();
+
+        sportChoice.setItems(FXCollections.observableArrayList(SportRankingUIManager.getSingletonInstance().getSports()));
+        sportChoice.getSelectionModel().selectFirst();
     }
 
     private void initializeLabels() {

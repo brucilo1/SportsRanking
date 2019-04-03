@@ -100,20 +100,21 @@ public class SchoolRankingController extends Controller implements Initializable
         final ObservableList<SchoolRankingController.FXSchoolRankingTable> rankedSchools = FXCollections.observableArrayList();
 
         try {
-
             final SportRankingUIManager sportRankingUIManager = SportRankingUIManager.getSingletonInstance();
-            final Dialog dialog = new Dialog();
 
-            dialog.setTitle("Ranking Schools");
-            dialog.setContentText("This process may take a few minutes, please wait...");
-            dialog.show();
+            final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText("Ranking Schools");
+            alert.setContentText("Please wait, this process may take a few minutes...");
+            alert.getDialogPane().lookupButton(ButtonType.OK).setDisable(true);
+            alert.show();
 
             //Scrapes data
             final ScrapeData scrapeData = new ScrapeData();
             final List<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
 
-            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
-            dialog.close();
+            alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+            alert.close();
 
             //Ranking and sorting
             schools.sort((school1, school2) -> (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100)));

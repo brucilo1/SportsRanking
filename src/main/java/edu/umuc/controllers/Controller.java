@@ -1,6 +1,7 @@
 package edu.umuc.controllers;
 
 import edu.umuc.SportsRankingApp;
+import edu.umuc.models.RankWeight;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.IOException;
 
@@ -71,5 +74,12 @@ public class Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //Added method for re-usability purposes in child classes
+    protected RankWeight loadRankWeight(String yamlName) {
+        // Loads the saved weights from the corresponding YAML file
+        final Yaml yaml = new Yaml(new Constructor(RankWeight.class));
+        return yaml.load(getClass().getResourceAsStream(yamlName));
     }
 }

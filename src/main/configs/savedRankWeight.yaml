@@ -1,0 +1,4 @@
+!!edu.umuc.models.RankWeight
+winLoss: 0.85
+oppWins: 0.65
+avgOppDifference: 0.25

@@ -102,7 +102,7 @@ public class SportRankingUIManager {
     public Float getLeagueWeightForSchool (String schoolName){
         return leagues.stream()
                 .filter(league -> league.containsSchool(schoolName))
-                .map(league -> league.getLeagueWeight())
+                .map(League::getLeagueWeight)
                 .findAny()
                 .orElse(DEFAULT_LEAGUE_WEIGHT);
     }
@@ -110,7 +110,7 @@ public class SportRankingUIManager {
     public String getLeagueNameForSchool (String schoolName){
         return leagues.stream()
                 .filter(league -> league.containsSchool(schoolName))
-                .map(league -> league.getLeagueName())
+                .map(League::getLeagueName)
                 .findAny()
                 .orElse(DEFAULT_LEAGUE_NAME);
     }

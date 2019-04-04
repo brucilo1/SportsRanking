@@ -2,8 +2,6 @@ package edu.umuc.controllers;
 
 import edu.umuc.models.*;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
-import sun.java2d.loops.FillRect;
 
 import java.io.InputStream;
 import java.util.*;
@@ -43,9 +41,7 @@ public class SportRankingUIManager {
     }
 
     private void loadLeagueData(){
-        final Yaml leagueYaml = new Yaml();
-        final InputStream resourceAsStream = getClass().getResourceAsStream(LEAGUES_YAML);
-        final Iterable<Object> iterableLeagues = leagueYaml.loadAll(resourceAsStream);
+        final Iterable<Object> iterableLeagues = loadAllForYaml(LEAGUES_YAML);
         final ArrayList<League> leagues = new ArrayList<>();
 
         iterableLeagues.forEach(iterableLeague -> {
@@ -61,9 +57,7 @@ public class SportRankingUIManager {
     }
 
     private void loadSchoolsData(){
-        final Yaml leagueYaml = new Yaml();
-        final InputStream resourceAsStream = getClass().getResourceAsStream(SCHOOLS_YAML);
-        final Iterable<Object> iterableSchools = leagueYaml.loadAll(resourceAsStream);
+        final Iterable<Object> iterableSchools = loadAllForYaml(SCHOOLS_YAML);
         final ArrayList<School> schools = new ArrayList<>();
 
         iterableSchools.forEach(iterableSchool -> {
@@ -76,14 +70,12 @@ public class SportRankingUIManager {
     }
 
     private void loadSportsData() {
-        final Yaml sportYaml = new Yaml();
-        final InputStream inputStream = getClass().getResourceAsStream(SPORTS_YAML);
-        final Iterable<Object> itrSports = sportYaml.loadAll(inputStream);
+        final Iterable<Object> itrSports = loadAllForYaml(SPORTS_YAML);
         final List <Sport> sports = new ArrayList<>();
 
         itrSports.forEach(itr -> {
-            final Map<String, Object> map = ((HashMap<String, Object>) itr);
-            final Sport sport = new Sport((String)map.get("name"), (String)map.get("season"), (String)map.get("path"));
+            final Map<String, String> map = ((HashMap<String, String>) itr);
+            final Sport sport = new Sport(map.get("name"), map.get("season"), map.get("path"));
             sports.add(sport);
         });
         Collections.sort(sports);
@@ -95,8 +87,14 @@ public class SportRankingUIManager {
             Yaml yaml = new Yaml();
             generalProperties = yaml.loadAs(inputStream, GeneralProperties.class);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            System.out.println("Error loading general properties data YAML file. Exception: " + ex.getMessage());
         }
+    }
+
+    private Iterable<Object> loadAllForYaml(String fileName) {
+        final InputStream inputStream = getClass().getResourceAsStream(fileName);
+        final Yaml yaml = new Yaml();
+        return yaml.loadAll(inputStream);
     }
 
     public Float getLeagueWeightForSchool (String schoolName){

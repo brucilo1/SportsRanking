@@ -74,9 +74,13 @@ public class SchoolRankingController extends Controller implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeLabels();
+        initializeChoiceBoxes();
+    }
 
-        List<String> yearList = new ArrayList<>();
-        int startingYear = Integer.valueOf(SportRankingUIManager.getSingletonInstance().getGeneralProperties().getStartingYear());
+    private void initializeChoiceBoxes(){
+        final List<String> yearList = new ArrayList<>();
+        final int startingYear = SportRankingUIManager.getSingletonInstance().getGeneralProperties().getStartingYear();
+
         for (int year = LocalDate.now().getYear(); year >= startingYear; year--) {
             yearList.add(String.valueOf(year));
         }

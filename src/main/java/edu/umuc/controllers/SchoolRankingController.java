@@ -140,7 +140,7 @@ public class SchoolRankingController extends Controller implements Initializable
 
             //Output schools with wrong information
             schools.stream()
-                    .filter(school -> school.getWins() != 0 && school.getLosses() != 0)
+                    .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
                     .map(school -> school.getSchoolName()
                             + ", League: " + sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName())
                             + ", Rank Points: " + school.getRankPoints()
@@ -148,9 +148,11 @@ public class SchoolRankingController extends Controller implements Initializable
                     .forEach(System.out::println);
 
             //Populating the Ranked School List
-            schools.forEach(school -> rankedSchools.add(new FXSchoolRankingTable(schools.indexOf(school) + 1, school.getSchoolName(),
-                    school.getWins(), school.getLosses(), sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName()),
-                    school.getOpponentsTotalWins(), school.getAvgPointDifference(), school.getRankPoints())));
+            schools.stream()
+                    .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
+                    .forEach(school -> rankedSchools.add(new FXSchoolRankingTable(rankedSchools.size() + 1, school.getSchoolName(),
+                        school.getWins(), school.getLosses(), sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName()),
+                        school.getOpponentsTotalWins(), school.getAvgPointDifference(), school.getRankPoints())));
 
             tbSchoolRanking.setItems(rankedSchools);
 

@@ -4,14 +4,18 @@ import java.util.List;
 
 public class League {
     private String leagueId;
-    private String leagueName;
-    private Float leagueWeight;
+    private String name;
+    private Float weight;
     private List<String> schools;
 
+    public League() {
+        
+    }
+    
     public League(String leagueId, String leagueName, Float leagueWeight) {
         this.leagueId = leagueId;
-        this.leagueName = leagueName;
-        this.leagueWeight = leagueWeight;
+        this.name = leagueName;
+        this.weight = leagueWeight;
     }
 
     public String getLeagueId() {
@@ -22,20 +26,20 @@ public class League {
         this.leagueId = leagueId;
     }
 
-    public String getLeagueName() {
-        return leagueName;
+    public String getName() {
+        return name;
     }
 
-    public void setLeagueName(String leagueName) {
-        this.leagueName = leagueName;
+    public void setName(String leagueName) {
+        this.name = leagueName;
     }
 
-    public Float getLeagueWeight() {
-        return leagueWeight;
+    public Float getWeight() {
+        return weight;
     }
 
-    public void setLeagueWeight(Float leagueWeight) {
-        this.leagueWeight = leagueWeight;
+    public void setWeight(Float leagueWeight) {
+        this.weight = leagueWeight;
     }
 
     public List<String> getSchools() {
@@ -49,4 +53,11 @@ public class League {
     public boolean containsSchool(String schoolName) {
         return schools.stream().anyMatch(school -> school.equals(schoolName));
     }
+
+    @Override
+    public String toString() {
+        return "League{" + "leagueId=" + leagueId + ", name=" + name + ", weight=" + weight + ", schools=" + schools + '}';
+    }
+    
+    
 }

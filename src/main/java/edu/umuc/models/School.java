@@ -13,6 +13,10 @@ public class School {
     private Integer opponentsTotalWins = 0;
     private boolean winLossRecordIncorrect = false;
 
+    public School() {
+        
+    }
+    
     public School(String schoolName, String urlPath) {
         this.schoolName = schoolName;
         this.urlPath = urlPath;

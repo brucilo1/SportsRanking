@@ -42,8 +42,8 @@ public class LeagueController extends Controller implements Initializable {
 
         final ObservableList<FXLeagueTable> studentsModels = FXCollections.observableArrayList();
 
-        SportRankingUIManager.getSingletonInstance().getLeagues().forEach(league -> league.getSchools().forEach(school -> {
-            studentsModels.add(new FXLeagueTable(school, league.getLeagueName(), league.getLeagueWeight()));
+        Controller.getLeagues().forEach(league -> league.getSchools().forEach(school -> {
+            studentsModels.add(new FXLeagueTable(school, league.getName(), league.getWeight()));
         }));
 
         tbLeague.setItems(studentsModels);

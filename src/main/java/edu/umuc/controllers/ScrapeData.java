@@ -11,7 +11,7 @@ public class ScrapeData {
 	public List<School> scrapeData(String year, String season, String sport, RankWeight rankWeight) throws InterruptedException, TimeoutException {
 
 		final SportRankingUIManager sportRankingUIManager = SportRankingUIManager.getSingletonInstance();
-		final List<School> schools = sportRankingUIManager.getSchools();
+		final List<School> schools = Controller.getSchools();
 
 		final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(300);
 
@@ -41,7 +41,7 @@ public class ScrapeData {
 				});
 
 				if (school.getWins() != 0 || school.getLosses() != 0) {
-					school.calculateRankPoints(rankWeight, sportRankingUIManager.getLeagueWeightForSchool(school.getSchoolName()));
+					school.calculateRankPoints(rankWeight, Controller.getLeagueWeightForSchool(school.getSchoolName()));
 				}
 			});
 		} else {

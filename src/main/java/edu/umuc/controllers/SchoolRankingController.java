@@ -79,7 +79,7 @@ public class SchoolRankingController extends Controller implements Initializable
 
     private void initializeChoiceBoxes(){
         final List<String> yearList = new ArrayList<>();
-        final int startingYear = SportRankingUIManager.getSingletonInstance().getGeneralProperties().getStartingYear();
+        final int startingYear = Controller.getGeneralProperties().getStartingYear();
 
         for (int year = LocalDate.now().getYear(); year >= startingYear; year--) {
             yearList.add(String.valueOf(year));
@@ -87,7 +87,7 @@ public class SchoolRankingController extends Controller implements Initializable
         yearChoice.setItems((FXCollections.observableArrayList(yearList)));
         yearChoice.getSelectionModel().selectFirst();
 
-        sportChoice.setItems(FXCollections.observableArrayList(SportRankingUIManager.getSingletonInstance().getSports()));
+        sportChoice.setItems(FXCollections.observableArrayList(Controller.getSports()));
         sportChoice.getSelectionModel().selectFirst();
     }
 
@@ -142,7 +142,7 @@ public class SchoolRankingController extends Controller implements Initializable
             schools.stream()
                     .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
                     .map(school -> school.getSchoolName()
-                            + ", League: " + sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName())
+                            + ", League: " + Controller.getLeagueNameForSchool(school.getSchoolName())
                             + ", Rank Points: " + school.getRankPoints()
                             + ", Record incorrect: " + school.isWinLossRecordIncorrect())
                     .forEach(System.out::println);
@@ -151,7 +151,7 @@ public class SchoolRankingController extends Controller implements Initializable
             schools.stream()
                     .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
                     .forEach(school -> rankedSchools.add(new FXSchoolRankingTable(rankedSchools.size() + 1, school.getSchoolName(),
-                        school.getWins(), school.getLosses(), sportRankingUIManager.getLeagueNameForSchool(school.getSchoolName()),
+                        school.getWins(), school.getLosses(), Controller.getLeagueNameForSchool(school.getSchoolName()),
                         school.getOpponentsTotalWins(), school.getAvgPointDifference(), school.getRankPoints())));
 
             tbSchoolRanking.setItems(rankedSchools);

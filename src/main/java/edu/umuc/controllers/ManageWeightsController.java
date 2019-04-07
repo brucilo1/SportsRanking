@@ -1,10 +1,12 @@
 package edu.umuc.controllers;
 
 import edu.umuc.models.RankWeight;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -21,8 +23,8 @@ import org.yaml.snakeyaml.Yaml;
 public class ManageWeightsController extends Controller implements Initializable {
     
     private static final DecimalFormat df = new DecimalFormat( "0.00" );
-    private static final String DEFAULT_RANK_WEIGHT_YAML ="/defaultRankWeight.yaml";
-    private static final String SAVED_RANK_WEIGHT_YAML ="/savedRankWeight.yaml";
+    private static final String DEFAULT_RANK_WEIGHT_YAML ="defaultRankWeight.yaml";
+    private static final String SAVED_RANK_WEIGHT_YAML ="savedRankWeight.yaml";
     
     // Text Fields
     @FXML
@@ -42,11 +44,17 @@ public class ManageWeightsController extends Controller implements Initializable
     }
 
     private void initializeTextFields() {
-        final RankWeight rankWeight = super.loadRankWeight(SAVED_RANK_WEIGHT_YAML);
+        File file = new File(Controller.getGeneralProperties().getYamlDirectory(), SAVED_RANK_WEIGHT_YAML);
+        try (InputStream inputStream = new FileInputStream(file)) {
+            final RankWeight rankWeight = super.loadRankWeight(SAVED_RANK_WEIGHT_YAML);
 
-        winLossWeight.setText(df.format(rankWeight.getWinLoss()));
-        oppWinsWeight.setText(df.format(rankWeight.getOppWins()));
-        avgPtsDiffWeight.setText(df.format(rankWeight.getAvgOppDifference()));
+            winLossWeight.setText(df.format(rankWeight.getWinLoss()));
+            oppWinsWeight.setText(df.format(rankWeight.getOppWins()));
+            avgPtsDiffWeight.setText(df.format(rankWeight.getAvgOppDifference()));
+        } catch (Exception e) {
+            System.out.println("Error loading saved rank weights");
+            System.exit(-1);
+        }
     }
 
     // Save weights manually entered by user
@@ -97,9 +105,7 @@ public class ManageWeightsController extends Controller implements Initializable
         final Yaml yaml = new Yaml(options);
 
         try {
-            // TODO This won't work when running the JAR.
-            // TODO We probably need to store the "savedRankedWeight.yaml" outside the project.
-            final FileWriter writer = new FileWriter(URLDecoder.decode(getClass().getResource(SAVED_RANK_WEIGHT_YAML).getFile(), "UTF-8"));
+            FileWriter writer = new FileWriter(Controller.getGeneralProperties().getYamlDirectory() + SAVED_RANK_WEIGHT_YAML);
             yaml.dump(rankWeight, writer);
         } catch (IOException e) {
            System.out.println("Error occurred while saving the rank weights" + e.getMessage());

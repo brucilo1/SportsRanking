@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 public class SchoolRankingController extends Controller implements Initializable {
 
     private final static DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
-    private final static String SAVED_RANK_WEIGHT_YAML ="/savedRankWeight.yaml";
+    private final static String SAVED_RANK_WEIGHT_YAML ="savedRankWeight.yaml";
     
     @FXML
     private TableView<SchoolRankingController.FXSchoolRankingTable> tbSchoolRanking;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -16,22 +17,22 @@
             </Label>
          </children>
       </Pane>
-      <TableView fx:id="tbSchoolRanking" layoutX="5.0" layoutY="198.0" prefHeight="310.0" prefWidth="1092.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="198.0">
+      <TableView fx:id="tbSchoolRanking" layoutX="8.0" layoutY="198.0" prefHeight="310.0" prefWidth="1086.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="198.0">
          <columns>
-            <TableColumn fx:id="rank" prefWidth="40.0" text="Rank" />
-            <TableColumn fx:id="schoolName" prefWidth="499.0" text="School Name" />
-            <TableColumn fx:id="wins" prefWidth="54.0" text="Wins" />
-            <TableColumn fx:id="losses" prefWidth="75.0" text="Losses" />
-            <TableColumn fx:id="league" minWidth="0.0" prefWidth="127.0" text="League Name" />
-            <TableColumn fx:id="oppWins" minWidth="0.0" prefWidth="89.0" text="Opp. Wins" />
-            <TableColumn fx:id="avgPointDiff" prefWidth="109.0" text="Avg. Point Diff." />
-            <TableColumn fx:id="totalPoints" prefWidth="81.0" text="Total Points" />
+            <TableColumn fx:id="rank" prefWidth="52.0" text="Rank" />
+            <TableColumn fx:id="schoolName" prefWidth="403.0" text="School Name" />
+            <TableColumn fx:id="wins" prefWidth="58.0" text="Wins" />
+            <TableColumn fx:id="losses" prefWidth="64.0" text="Losses" />
+            <TableColumn fx:id="league" minWidth="0.0" prefWidth="146.0" text="League Name" />
+            <TableColumn fx:id="oppWins" minWidth="0.0" prefWidth="98.0" text="Opp. Wins" />
+            <TableColumn fx:id="avgPointDiff" prefWidth="145.0" text="Avg. Point Diff." />
+            <TableColumn fx:id="totalPoints" prefWidth="108.0" text="Total Points" />
          </columns>
       </TableView>
       <Pane layoutX="7.0" layoutY="510.0" prefHeight="51.0" prefWidth="1083.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Button fx:id="rankSchools" layoutX="40.0" layoutY="3.0" mnemonicParsing="false" onAction="#processRankSchoolsEvent" prefHeight="42.0" prefWidth="132.0" text="Rank Schools" textFill="#29288d" />
-            <Button fx:id="rankCalc" layoutX="458.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="166.0" text="Rank Calculation" textFill="#29288d" />
+            <Button fx:id="rankCalc" layoutX="458.0" layoutY="3.0" mnemonicParsing="false" onAction="#rankCalc" prefHeight="42.0" prefWidth="166.0" text="Rank Calculation" textFill="#29288d" />
             <Button fx:id="btnManageWeights" layoutX="888.0" layoutY="3.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="42.0" prefWidth="154.0" text="Manage Weights" textFill="#29288d" />
          </children>
       </Pane>

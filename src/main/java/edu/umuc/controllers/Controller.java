@@ -21,6 +21,7 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,12 +51,18 @@ public class Controller {
     private static List<School> schools = new ArrayList<>();
     private static List<Sport> sports = new ArrayList<>();
     private static RankWeight rankWeight;
-
+    private static School selectedSchool = null;
+    private static League selectedLeague = null;
+    
+    public final DecimalFormat DECIMAL_FORMAT = new DecimalFormat( "0.00" );
+    
     protected String configPath;
         
     public Controller() {
         try {
             final Properties properties = new Properties();
+//            InputStream is = new FileInputStream(new File("C:\\Users\\jhender1\\Documents\\NetBeansProjects\\SportsRanking\\src\\main\\resources" + CONFIG_PROPERTIES));
+//            properties.load(is);
             properties.load(this.getClass().getResourceAsStream(CONFIG_PROPERTIES));
             configPath = properties.getProperty("configpath");
             if (configPath == null) {
@@ -127,14 +134,15 @@ public class Controller {
 
     @FXML
     private void processButtonClickEvents(ActionEvent event){
+        initializeSelected();
         if (event.getSource() == btnSchoolsRanking) {
             loadPage(SCHOOL_RANKING_FXML);
         } else if (event.getSource() == btnLeagues){
             loadPage(LEAGUES_FXML);
         } else if (event.getSource() == btnHome){
             loadPage(HOME_PAGE_FXML);
-        } else if (event.getSource() == rankCalc){
-            loadPage(RANK_CALC_PAGE_FXML);
+//        } else if (event.getSource() == rankCalc){
+//            loadPage(RANK_CALC_PAGE_FXML);
         } else if (event.getSource() == btnManageWeights){
             loadPage(MANAGE_WEIGHTS_FXML);            
         }
@@ -160,6 +168,7 @@ public class Controller {
         final File file = new File(configPath, yamlName);
         try {
             returnRankWeight = yaml.load(new FileInputStream(file));
+            rankWeight = returnRankWeight;
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -274,6 +283,42 @@ public class Controller {
 
     public static void setRankWeight(RankWeight rankWeight) {
         Controller.rankWeight = rankWeight;
+    }
+
+    private static void initializeSelected() {
+        selectedSchool = null;
+        selectedLeague = null;
+    }
+
+        public static League getLeagueForSchool (String schoolName){
+        for (League singleLeague : leagues) {
+            if (singleLeague.getSchools().contains(schoolName)) {
+                return singleLeague;
+            }
+        }
+        return null;
+    }
+
+    public static void initializeSchools() {
+        for (School school : schools) {
+            school.initialize();
+        }
+    }
+
+    public static School getSelectedSchool() {
+        return selectedSchool;
+    }
+
+    public static void setSelectedSchool(School selectedSchool) {
+        Controller.selectedSchool = selectedSchool;
+    }
+
+    public static League getSelectedLeague() {
+        return selectedLeague;
+    }
+
+    public static void setSelectedLeague(League selectedLeague) {
+        Controller.selectedLeague = selectedLeague;
     }
 
 }

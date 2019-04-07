@@ -41,7 +41,7 @@ public class ScrapeData {
 				});
 
 				if (school.getWins() != 0 || school.getLosses() != 0) {
-					school.calculateRankPoints(rankWeight, Controller.getLeagueWeightForSchool(school.getSchoolName()));
+					school.getTotalPoints(rankWeight, Controller.getLeagueWeightForSchool(school.getSchoolName()));
 				}
 			});
 		} else {

@@ -71,6 +71,18 @@ public class SchoolRankingController extends Controller implements Initializable
     @FXML
     private Label lblAvgPointDiff;
     
+    @FXML
+    private void rankCalc(ActionEvent event){
+        if (!tbSchoolRanking.getItems().isEmpty()) {
+            if (tbSchoolRanking.getSelectionModel().getSelectedItem() != null) {
+                School selected = tbSchoolRanking.getSelectionModel().getSelectedItem().getSchool();
+                Controller.setSelectedSchool(selected);
+                Controller.setSelectedLeague(getLeagueForSchool(selected.getSchoolName()));
+            }
+        }
+        loadPage(RANK_CALC_PAGE_FXML);
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeLabels();
@@ -163,14 +175,17 @@ public class SchoolRankingController extends Controller implements Initializable
             //Populating the Ranked School List
             schools.stream()
                     .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
-                    .forEach(school -> rankedSchools.add(new FXSchoolRankingTable(rankedSchools.size() + 1, school.getSchoolName(),
-                        school.getWins(), school.getLosses(), Controller.getLeagueNameForSchool(school.getSchoolName()),
-                        school.getOpponentsTotalWins(), school.getAvgPointDifference(), school.getRankPoints())));
-
+                    .forEach(school -> rankedSchools.add(new FXSchoolRankingTable(rankedSchools.size() + 1, Controller.getLeagueNameForSchool(school.getSchoolName()), school)));
             tbSchoolRanking.setItems(rankedSchools);
 
         } catch (InterruptedException | TimeoutException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, "Exception thrown during data scraping.", ex);
+        }
+    }
+
+    public static void initializeSchools() {
+        for (School school : getSchools()) {
+            school.initialize();
         }
     }
 
@@ -187,19 +202,21 @@ public class SchoolRankingController extends Controller implements Initializable
         private final SimpleIntegerProperty losses;
         private final SimpleStringProperty league;
         private final SimpleIntegerProperty oppWins;
-        private final SimpleFloatProperty avgPointDiff;
-        private final SimpleFloatProperty totalPoints;
+        private final SimpleStringProperty avgPointDiff;
+        private final SimpleStringProperty totalPoints;
+        private final School school;
+        
+        private FXSchoolRankingTable(Integer rank, String league, School school) {
 
-        private FXSchoolRankingTable(Integer rank, String schoolName, Integer wins, Integer losses, String league,
-                                     Integer oppWins, Float avgPointDiff, Float totalPoints) {
             this.rank = new SimpleIntegerProperty(rank);
-            this.schoolName = new SimpleStringProperty(schoolName);
-            this.wins = new SimpleIntegerProperty(wins);
-            this.losses = new SimpleIntegerProperty(losses);
+            this.schoolName = new SimpleStringProperty(school.getSchoolName());
+            this.wins = new SimpleIntegerProperty(school.getWins());
+            this.losses = new SimpleIntegerProperty(school.getLosses());
             this.league = new SimpleStringProperty(league);
-            this.oppWins = new SimpleIntegerProperty(oppWins);
-            this.avgPointDiff = new SimpleFloatProperty(avgPointDiff);
-            this.totalPoints = new SimpleFloatProperty(totalPoints);
+            this.oppWins = new SimpleIntegerProperty(school.getOpponentsTotalWins());
+            this.avgPointDiff = new SimpleStringProperty(DECIMAL_FORMAT.format(school.getAvgPointDifference()));
+            this.totalPoints = new SimpleStringProperty(DECIMAL_FORMAT.format(school.getRankPoints()));
+            this.school = school;
         }
 
         public int getRank() {
@@ -250,26 +267,24 @@ public class SchoolRankingController extends Controller implements Initializable
             return oppWins;
         }
 
-        public float getAvgPointDiff() {
+        public String getAvgPointDiff() {
             return avgPointDiff.get();
         }
 
-        public SimpleFloatProperty avgPointDiffProperty() {
+        public SimpleStringProperty avgPointDiffProperty() {
             return avgPointDiff;
         }
 
-        public float getTotalPoints() {
+        public String getTotalPoints() {
             return totalPoints.get();
         }
 
-        public SimpleFloatProperty totalPointsProperty() {
+        public SimpleStringProperty totalPointsProperty() {
             return totalPoints;
         }
-    }
-
-    public static void initializeSchools() {
-        for (School school : getSchools()) {
-            school.initialize();
+	         
+        public School getSchool() {
+            return school;
         }
     }
 }

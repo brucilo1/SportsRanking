@@ -104,28 +104,28 @@ public class School {
         this.opponentsTotalWins += opponentsTotalWins;
     }
 
-    public float pointsForWins(Float leagueWeight) {
+    public float getPointsForWins(Float leagueWeight) {
         return wins * leagueWeight;
     }
 
-    public float pointsForLosses(Float leagueWeight) {
+    public float getPointsForLosses(Float leagueWeight) {
         return (losses * (1/leagueWeight)) * -1;
     }
 
-    public float sumOfPoints(RankWeight rankWeight, Float leagueWeight) {
-        return (pointsForWins(leagueWeight) + pointsForLosses(leagueWeight)) * rankWeight.getWinLoss();
+    public float getSumOfPoints(RankWeight rankWeight, Float leagueWeight) {
+        return (getPointsForWins(leagueWeight) + getPointsForLosses(leagueWeight)) * rankWeight.getWinLoss();
     }
 
-    public float pointsFromOpponentWins(RankWeight rankWeight) {
+    public float getPointsFromOpponentWins(RankWeight rankWeight) {
         return opponentsTotalWins * rankWeight.getOppWins();
     }
 
-    public float pointsFromAveragePointDifferential(RankWeight rankWeight) {
+    public float getPointsFromAveragePointDifferential(RankWeight rankWeight) {
         return (avgPointDifference * rankWeight.getAvgOppDifference());
     }
 
-    public float calculateRankPoints(RankWeight rankWeight, Float leagueWeight) {
-        rankPoints = sumOfPoints(rankWeight, leagueWeight) + pointsFromOpponentWins(rankWeight) + pointsFromAveragePointDifferential(rankWeight);
+    public float getTotalPoints(RankWeight rankWeight, Float leagueWeight) {
+        rankPoints = getSumOfPoints(rankWeight, leagueWeight) + getPointsFromOpponentWins(rankWeight) + getPointsFromAveragePointDifferential(rankWeight);
         return rankPoints;
     }
 

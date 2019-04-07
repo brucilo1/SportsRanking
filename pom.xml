@@ -57,9 +57,6 @@
             <resource>
                 <directory>src/main/java/edu/umuc/fxml</directory>
             </resource>
-            <resource>
-                <directory>src/main/configs</directory>
-            </resource>
         </resources>
 
     </build>

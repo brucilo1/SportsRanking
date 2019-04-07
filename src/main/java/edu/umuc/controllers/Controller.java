@@ -21,26 +21,26 @@ import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Controller {
+    //Resources
     public static final String SCHOOL_RANKING_FXML = "/SchoolRanking.fxml";
     public static final String LEAGUES_FXML = "/Leagues.fxml";
     public static final String HOME_PAGE_FXML = "/HomePage.fxml";
     public static final String RANK_CALC_PAGE_FXML = "/RankCalculation.fxml";
     private static final String MANAGE_WEIGHTS_FXML = "/ManageWeights.fxml";
-    private static final String GENERAL_PROPERTIES_YAML = "C:/hssrs/general-properties.yaml";
+    private static final String CONFIG_PROPERTIES = "/config.properties";
+
     private static GeneralProperties generalProperties = null;
     private final static Float DEFAULT_LEAGUE_WEIGHT = 1F;
     private final static String DEFAULT_LEAGUE_NAME = "NONE";
-    
+
+    //Config files
+    private static final String GENERAL_PROPERTIES_YAML = "generalProperties.yaml";
     private final static String LEAGUES_YAML = "leagues.yaml";
     private final static String SCHOOLS_YAML = "schools.yaml";
     private final static String SPORTS_YAML = "sports.yaml";
@@ -48,11 +48,26 @@ public class Controller {
     private static List<League> leagues = new ArrayList<>();
     private static List<School> schools = new ArrayList<>();
     private static List<Sport> sports = new ArrayList<>();
+
+    protected String configPath;
         
     public Controller() {
+        try {
+            final Properties properties = new Properties();
+            properties.load(this.getClass().getResourceAsStream(CONFIG_PROPERTIES));
+            configPath = properties.getProperty("configpath");
+            if (configPath == null) {
+                System.out.println("No config path found in the properties file.");
+                System.exit(-1);
+            }
+        } catch (IOException e) {
+            System.out.println("Unable to read read the config.properties file");
+            System.exit(-1);
+        }
+
         if (generalProperties == null) {
             loadGeneralPropertiesData();
-            if (generalProperties == null || generalProperties.getYamlDirectory().isEmpty()) {
+            if (generalProperties == null) {
                 System.out.println("General Properties not loaded");
                 System.exit(-1);
             }
@@ -140,7 +155,7 @@ public class Controller {
         RankWeight returnRankWeight = new RankWeight();
         // Loads the saved weights from the corresponding YAML file
         final Yaml yaml = new Yaml(new Constructor(RankWeight.class));
-        File file = new File(generalProperties.getYamlDirectory() + yamlName);
+        final File file = new File(configPath, yamlName);
         try {
             returnRankWeight = yaml.load(new FileInputStream(file));
         } catch (FileNotFoundException ex) {
@@ -150,7 +165,7 @@ public class Controller {
     }
     
     private void loadGeneralPropertiesData() {
-        File generalPropertiesFile = new File(GENERAL_PROPERTIES_YAML);
+        final File generalPropertiesFile = new File(configPath, GENERAL_PROPERTIES_YAML);
         try (InputStream inputStream = new FileInputStream(generalPropertiesFile)) {
             Yaml yaml = new Yaml();
             generalProperties = yaml.loadAs(inputStream, GeneralProperties.class);
@@ -164,7 +179,7 @@ public class Controller {
     }
 
     private void loadLeaguesData(){
-        File file = new File(Controller.getGeneralProperties().getYamlDirectory(), LEAGUES_YAML);
+        File file = new File(configPath, LEAGUES_YAML);
         try (InputStream inputStream = new FileInputStream(file)) {
             final Yaml yaml = new Yaml();
             Iterable<Object> iterableLeagues = yaml.loadAll(inputStream);
@@ -186,7 +201,7 @@ public class Controller {
     }
     
     private void loadSchoolsData(){
-        File file = new File(Controller.getGeneralProperties().getYamlDirectory(), SCHOOLS_YAML);
+        File file = new File(configPath, SCHOOLS_YAML);
         try (InputStream inputStream = new FileInputStream(file)) {
             final Yaml yaml = new Yaml();
             Iterable<Object> iterableSchools = yaml.loadAll(inputStream);
@@ -205,7 +220,7 @@ public class Controller {
     }
     
     private void loadSportsData() {
-        File file = new File(Controller.getGeneralProperties().getYamlDirectory(), SPORTS_YAML);
+        File file = new File(configPath, SPORTS_YAML);
         try (InputStream inputStream = new FileInputStream(file)) {
             final Yaml yaml = new Yaml();
             Iterable<Object> itrSports = yaml.loadAll(inputStream);

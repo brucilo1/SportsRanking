@@ -44,7 +44,7 @@ public class ManageWeightsController extends Controller implements Initializable
     }
 
     private void initializeTextFields() {
-        File file = new File(Controller.getGeneralProperties().getYamlDirectory(), SAVED_RANK_WEIGHT_YAML);
+        File file = new File(configPath, SAVED_RANK_WEIGHT_YAML);
         try (InputStream inputStream = new FileInputStream(file)) {
             final RankWeight rankWeight = super.loadRankWeight(SAVED_RANK_WEIGHT_YAML);
 
@@ -105,7 +105,7 @@ public class ManageWeightsController extends Controller implements Initializable
         final Yaml yaml = new Yaml(options);
 
         try {
-            FileWriter writer = new FileWriter(Controller.getGeneralProperties().getYamlDirectory() + SAVED_RANK_WEIGHT_YAML);
+            FileWriter writer = new FileWriter(configPath + SAVED_RANK_WEIGHT_YAML);
             yaml.dump(rankWeight, writer);
         } catch (IOException e) {
            System.out.println("Error occurred while saving the rank weights" + e.getMessage());

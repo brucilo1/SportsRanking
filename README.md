@@ -3,7 +3,7 @@ UMUC Sports Ranking Project
 
 Steps to run the program:
 
-1) Update the config.properties file with the correct path where the configuration files will reside. By default it is set to "C:\hssrs\".
+1) Update the .../src/main/resources/config.properties file with the correct path where the configuration files will reside. By default it is set to "C:\hssrs\".
 
 2) Copy all the /configs/*.yaml files to the folder set in step 1
 

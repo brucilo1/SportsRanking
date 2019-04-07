@@ -45,9 +45,11 @@ public class Controller {
     private final static String SCHOOLS_YAML = "schools.yaml";
     private final static String SPORTS_YAML = "sports.yaml";
 
+    //TODO revisit if these need to be static
     private static List<League> leagues = new ArrayList<>();
     private static List<School> schools = new ArrayList<>();
     private static List<Sport> sports = new ArrayList<>();
+    private static RankWeight rankWeight;
 
     protected String configPath;
         
@@ -264,6 +266,14 @@ public class Controller {
                 .map(League::getName)
                 .findAny()
                 .orElse(DEFAULT_LEAGUE_NAME);
+    }
+
+    public static RankWeight getRankWeight() {
+        return rankWeight;
+    }
+
+    public static void setRankWeight(RankWeight rankWeight) {
+        Controller.rankWeight = rankWeight;
     }
 
 }

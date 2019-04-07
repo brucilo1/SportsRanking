@@ -47,7 +47,7 @@ public class ManageWeightsController extends Controller implements Initializable
         File file = new File(configPath, SAVED_RANK_WEIGHT_YAML);
         try (InputStream inputStream = new FileInputStream(file)) {
             final RankWeight rankWeight = super.loadRankWeight(SAVED_RANK_WEIGHT_YAML);
-
+            setRankWeight(rankWeight);
             winLossWeight.setText(df.format(rankWeight.getWinLoss()));
             oppWinsWeight.setText(df.format(rankWeight.getOppWins()));
             avgPtsDiffWeight.setText(df.format(rankWeight.getAvgOppDifference()));
@@ -66,6 +66,7 @@ public class ManageWeightsController extends Controller implements Initializable
             final Float oppWins = Float.parseFloat(oppWinsWeight.getText());
             final Float avgOppDifference = Float.parseFloat(avgPtsDiffWeight.getText());
             final RankWeight savedRankWeight = new RankWeight(winLoss, oppWins, avgOppDifference);
+            setRankWeight(savedRankWeight);
 
             // Write saved weight info to file
             saveWeights(savedRankWeight);
@@ -90,7 +91,7 @@ public class ManageWeightsController extends Controller implements Initializable
     @FXML
     private void handleResetWeights() {
         final RankWeight rankWeight = super.loadRankWeight(DEFAULT_RANK_WEIGHT_YAML);
-
+        setRankWeight(rankWeight);
         winLossWeight.setText(df.format(rankWeight.getWinLoss()));
         oppWinsWeight.setText(df.format(rankWeight.getOppWins()));
         avgPtsDiffWeight.setText(df.format(rankWeight.getAvgOppDifference()));

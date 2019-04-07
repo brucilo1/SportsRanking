@@ -157,13 +157,17 @@ class GetDataThread implements Runnable {
 		} while (isError && errorCount < 3); 
 
 	}
-        
-       private int cleanScore (String scoreString) {
-           String cleanString = scoreString;
-           int findRightParentheses = cleanString.indexOf(")");
-           if (findRightParentheses > 0) {
-               cleanString = cleanString.substring(findRightParentheses + 1);
-           }
-           return Integer.parseInt(cleanString.trim());
-       }
+
+	private int cleanScore (String scoreString) {
+		String cleanString = scoreString;
+		int findRightParentheses = cleanString.indexOf(")");
+		if (findRightParentheses > 0) {
+			cleanString = cleanString.substring(findRightParentheses + 1);
+		}
+		int findAdditionalHyphen = cleanString.indexOf("-");
+		if (findAdditionalHyphen > 0) {
+			cleanString = cleanString.substring(findAdditionalHyphen + 1);
+		}
+		return Integer.parseInt(cleanString.trim());
+	}
 }

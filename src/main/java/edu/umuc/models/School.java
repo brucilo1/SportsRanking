@@ -22,6 +22,16 @@ public class School {
         this.urlPath = urlPath;
     }
 
+    public void initialize() {
+        rankPoints = 0f;
+        wins = 0;
+        losses = 0;
+        avgPointDifference = 0f;
+        opponents = new ArrayList<>();
+        opponentsTotalWins = 0;
+        winLossRecordIncorrect = false;
+    }
+
     public String getSchoolName() {
         return schoolName;
     }

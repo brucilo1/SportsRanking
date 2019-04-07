@@ -105,7 +105,6 @@ public class SchoolRankingController extends Controller implements Initializable
     }
 
     private void scrapeData() {
-        //TODO get Year and Sport Choices
         rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
         schoolName.setCellValueFactory(new PropertyValueFactory<>("schoolName"));
         wins.setCellValueFactory(new PropertyValueFactory<>("wins"));
@@ -118,9 +117,23 @@ public class SchoolRankingController extends Controller implements Initializable
         //List that populates the UI Table
         final ObservableList<SchoolRankingController.FXSchoolRankingTable> rankedSchools = FXCollections.observableArrayList();
 
-        try {
-            final SportRankingUIManager sportRankingUIManager = SportRankingUIManager.getSingletonInstance();
+        initializeSchools();
+        final String yearSelectedString = yearChoice.getValue();
+        final String sportSelectedString = sportChoice.getValue().toString();
+        final RankWeight rankWeight = new RankWeight(Float.parseFloat(lblWinLoss.getText()),
+                Float.parseFloat(lblOppWins.getText()),
+                Float.parseFloat(lblAvgPointDiff.getText()));
 
+        final Sport sportSelected = getSports().stream()
+                .filter(sportItem -> sportSelectedString.equals(sportItem.getName()))
+                .findFirst()
+                .orElse(null);
+
+        if (sportSelected == null) {
+            return;
+        }
+
+        try {
             final Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText("Ranking Schools");
@@ -130,7 +143,7 @@ public class SchoolRankingController extends Controller implements Initializable
 
             //Scrapes data
             final ScrapeData scrapeData = new ScrapeData();
-            final List<School> schools = scrapeData.scrapeData("2018", "fall", "football", new RankWeight(0.75f, 0.1f, 0.15f));
+            final List<School> schools = scrapeData.scrapeData(yearSelectedString, sportSelected.getSeason(), sportSelected.getPath(), rankWeight);
 
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             alert.close();
@@ -251,6 +264,12 @@ public class SchoolRankingController extends Controller implements Initializable
 
         public SimpleFloatProperty totalPointsProperty() {
             return totalPoints;
+        }
+    }
+
+    public static void initializeSchools() {
+        for (School school : getSchools()) {
+            school.initialize();
         }
     }
 }

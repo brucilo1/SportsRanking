@@ -51,10 +51,11 @@ public class Controller {
     private static List<School> schools = new ArrayList<>();
     private static List<Sport> sports = new ArrayList<>();
     private static RankWeight rankWeight;
-    private static School selectedSchool = null;
-    private static League selectedLeague = null;
-    
-    public final DecimalFormat DECIMAL_FORMAT = new DecimalFormat( "0.00" );
+    private static School selectedSchool;
+    private static League selectedLeague;
+    private static boolean schoolsRanked = false;
+
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat( "0.00" );
     
     protected String configPath;
         
@@ -134,15 +135,12 @@ public class Controller {
 
     @FXML
     private void processButtonClickEvents(ActionEvent event){
-        initializeSelected();
         if (event.getSource() == btnSchoolsRanking) {
             loadPage(SCHOOL_RANKING_FXML);
         } else if (event.getSource() == btnLeagues){
             loadPage(LEAGUES_FXML);
         } else if (event.getSource() == btnHome){
             loadPage(HOME_PAGE_FXML);
-//        } else if (event.getSource() == rankCalc){
-//            loadPage(RANK_CALC_PAGE_FXML);
         } else if (event.getSource() == btnManageWeights){
             loadPage(MANAGE_WEIGHTS_FXML);            
         }
@@ -285,12 +283,7 @@ public class Controller {
         Controller.rankWeight = rankWeight;
     }
 
-    private static void initializeSelected() {
-        selectedSchool = null;
-        selectedLeague = null;
-    }
-
-        public static League getLeagueForSchool (String schoolName){
+    public static League getLeagueForSchool (String schoolName){
         for (League singleLeague : leagues) {
             if (singleLeague.getSchools().contains(schoolName)) {
                 return singleLeague;
@@ -321,4 +314,11 @@ public class Controller {
         Controller.selectedLeague = selectedLeague;
     }
 
+    public static boolean isSchoolsRanked() {
+        return schoolsRanked;
+    }
+
+    public static void setSchoolsRanked(boolean schoolsRanked) {
+        Controller.schoolsRanked = schoolsRanked;
+    }
 }

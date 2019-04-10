@@ -3,7 +3,6 @@ package edu.umuc.controllers;
 import edu.umuc.models.RankWeight;
 import edu.umuc.models.School;
 import edu.umuc.models.Sport;
-import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -28,9 +27,9 @@ public class SchoolRankingController extends Controller implements Initializable
 
     private final static DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
     private final static String SAVED_RANK_WEIGHT_YAML ="savedRankWeight.yaml";
-    
+
     @FXML
-    private TableView<SchoolRankingController.FXSchoolRankingTable> tbSchoolRanking;
+    public TableView<SchoolRankingController.FXSchoolRankingTable> tbSchoolRanking;
 
     @FXML
     public TableColumn<SchoolRankingController.FXSchoolRankingTable, Integer> rank;
@@ -70,15 +69,13 @@ public class SchoolRankingController extends Controller implements Initializable
 
     @FXML
     private Label lblAvgPointDiff;
-    
+
     @FXML
     private void rankCalc(ActionEvent event){
-        if (!tbSchoolRanking.getItems().isEmpty()) {
-            if (tbSchoolRanking.getSelectionModel().getSelectedItem() != null) {
-                School selected = tbSchoolRanking.getSelectionModel().getSelectedItem().getSchool();
-                Controller.setSelectedSchool(selected);
-                Controller.setSelectedLeague(getLeagueForSchool(selected.getSchoolName()));
-            }
+        if (!tbSchoolRanking.getItems().isEmpty() && tbSchoolRanking.getSelectionModel().getSelectedItem() != null ) {
+            final School selected = tbSchoolRanking.getSelectionModel().getSelectedItem().getSchool();
+            setSelectedSchool(selected);
+            setSelectedLeague(getLeagueForSchool(selected.getSchoolName()));
         }
         loadPage(RANK_CALC_PAGE_FXML);
     }
@@ -87,6 +84,9 @@ public class SchoolRankingController extends Controller implements Initializable
     public void initialize(URL location, ResourceBundle resources) {
         initializeLabels();
         initializeChoiceBoxes();
+        if (isSchoolsRanked()) {
+            populateTable(getSchools());
+        }
     }
 
     private void initializeChoiceBoxes(){
@@ -117,18 +117,6 @@ public class SchoolRankingController extends Controller implements Initializable
     }
 
     private void scrapeData() {
-        rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
-        schoolName.setCellValueFactory(new PropertyValueFactory<>("schoolName"));
-        wins.setCellValueFactory(new PropertyValueFactory<>("wins"));
-        losses.setCellValueFactory(new PropertyValueFactory<>("losses"));
-        league.setCellValueFactory(new PropertyValueFactory<>("league"));
-        oppWins.setCellValueFactory(new PropertyValueFactory<>("oppWins"));
-        avgPointDiff.setCellValueFactory(new PropertyValueFactory<>("avgPointDiff"));
-        totalPoints.setCellValueFactory(new PropertyValueFactory<>("totalPoints"));
-
-        //List that populates the UI Table
-        final ObservableList<SchoolRankingController.FXSchoolRankingTable> rankedSchools = FXCollections.observableArrayList();
-
         initializeSchools();
         final String yearSelectedString = yearChoice.getValue();
         final String sportSelectedString = sportChoice.getValue().toString();
@@ -163,24 +151,45 @@ public class SchoolRankingController extends Controller implements Initializable
             //Ranking and sorting
             schools.sort((school1, school2) -> (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100)));
 
-            //Output schools with wrong information
-            schools.stream()
-                    .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
-                    .map(school -> school.getSchoolName()
-                            + ", League: " + Controller.getLeagueNameForSchool(school.getSchoolName())
-                            + ", Rank Points: " + school.getRankPoints()
-                            + ", Record incorrect: " + school.isWinLossRecordIncorrect())
-                    .forEach(System.out::println);
+            setSchoolsRanked(true);
 
-            //Populating the Ranked School List
-            schools.stream()
-                    .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
-                    .forEach(school -> rankedSchools.add(new FXSchoolRankingTable(rankedSchools.size() + 1, Controller.getLeagueNameForSchool(school.getSchoolName()), school)));
-            tbSchoolRanking.setItems(rankedSchools);
+            //Populating the UI table
+            populateTable(schools);
 
         } catch (InterruptedException | TimeoutException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, "Exception thrown during data scraping.", ex);
         }
+    }
+
+    private void populateTable(List<School> schools) {
+        rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        schoolName.setCellValueFactory(new PropertyValueFactory<>("schoolName"));
+        wins.setCellValueFactory(new PropertyValueFactory<>("wins"));
+        losses.setCellValueFactory(new PropertyValueFactory<>("losses"));
+        league.setCellValueFactory(new PropertyValueFactory<>("league"));
+        oppWins.setCellValueFactory(new PropertyValueFactory<>("oppWins"));
+        avgPointDiff.setCellValueFactory(new PropertyValueFactory<>("avgPointDiff"));
+        totalPoints.setCellValueFactory(new PropertyValueFactory<>("totalPoints"));
+
+        //List that populates the UI Table
+        final ObservableList<SchoolRankingController.FXSchoolRankingTable> rankedSchools = FXCollections.observableArrayList();
+
+        //Output schools with wrong information
+        schools.stream()
+                .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
+                .map(school -> school.getSchoolName()
+                        + ", League: " + getLeagueNameForSchool(school.getSchoolName())
+                        + ", Rank Points: " + school.getRankPoints()
+                        + ", Record incorrect: " + school.isWinLossRecordIncorrect())
+                .forEach(System.out::println);
+
+        //Populating the Ranked School List
+        schools.stream()
+                .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
+                .forEach(school -> rankedSchools.add(
+                        new SchoolRankingController.FXSchoolRankingTable(rankedSchools.size() + 1, getLeagueNameForSchool(school.getSchoolName()), school)));
+
+        tbSchoolRanking.setItems(rankedSchools);
     }
 
     public static void initializeSchools() {

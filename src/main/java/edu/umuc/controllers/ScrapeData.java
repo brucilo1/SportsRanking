@@ -10,7 +10,6 @@ import java.util.concurrent.TimeoutException;
 public class ScrapeData {
 	public List<School> scrapeData(String year, String season, String sport, RankWeight rankWeight) throws InterruptedException, TimeoutException {
 
-		final SportRankingUIManager sportRankingUIManager = SportRankingUIManager.getSingletonInstance();
 		final List<School> schools = Controller.getSchools();
 
 		final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(300);

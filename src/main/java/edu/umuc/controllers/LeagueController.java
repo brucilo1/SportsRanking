@@ -42,7 +42,7 @@ public class LeagueController extends Controller implements Initializable {
 
         final ObservableList<FXLeagueTable> studentsModels = FXCollections.observableArrayList();
 
-        Controller.getLeagues().forEach(league -> league.getSchools().forEach(school -> {
+        getLeagues().forEach(league -> league.getSchools().forEach(school -> {
             studentsModels.add(new FXLeagueTable(school, league.getName(), league.getWeight()));
         }));
 

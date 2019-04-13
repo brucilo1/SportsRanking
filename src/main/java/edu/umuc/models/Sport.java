@@ -1,9 +1,24 @@
 package edu.umuc.models;
 
+/**
+ * Represents a Sport and stores the information needed to build the url to scrape data
+ * example: fall is the season and football is the path in https://www.washingtonpost.com/allmetsports/2018-fall/paint-branch/football/
+ */
 public class Sport implements Comparable<Sport>{
 
+    /**
+     * The name of the sport to be displayed
+     */
     private String name;
+    
+    /** 
+     * The season for the sport to be used in the path to scrape the data
+     */
     private String season;
+    
+    /**
+     * The path for the sport to be used in the url creation
+     */
     private String path;
 
     public Sport(String name, String season, String path) {

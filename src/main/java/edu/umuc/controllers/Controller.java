@@ -49,7 +49,9 @@ public class Controller {
     //TODO revisit if these need to be static
     private static List<League> leagues = new ArrayList<>();
     private static List<School> schools = new ArrayList<>();
-    private static List<Sport> sports = new ArrayList<>();
+    
+    private List<Sport> sports = new ArrayList<>();
+    
     private static RankWeight rankWeight;
     private static School selectedSchool;
     private static League selectedLeague;
@@ -255,7 +257,7 @@ public class Controller {
         return schools;
     }
     
-    public static List<Sport> getSports() {
+    public List<Sport> getSports() {
         return sports;
     }
 

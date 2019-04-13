@@ -113,7 +113,7 @@ public class SchoolRankingController extends Controller implements Initializable
      */
     private void initializeChoiceBoxes(){
         final List<String> yearList = new ArrayList<>();
-        final int startingYear = Controller.getGeneralProperties().getStartingYear();
+        final int startingYear = getGeneralProperties().getStartingYear();
 
         for (int year = LocalDate.now().getYear(); year >= startingYear; year--) {
             yearList.add(String.valueOf(year));
@@ -121,7 +121,7 @@ public class SchoolRankingController extends Controller implements Initializable
         yearChoice.setItems((FXCollections.observableArrayList(yearList)));
         yearChoice.getSelectionModel().selectFirst();
 
-        sportChoice.setItems(FXCollections.observableArrayList(Controller.getSports()));
+        sportChoice.setItems(FXCollections.observableArrayList(getSports()));
         sportChoice.getSelectionModel().selectFirst();
     }
 

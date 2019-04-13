@@ -23,9 +23,19 @@ import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class is the controller for the Sports Ranking page
+ */
 public class SchoolRankingController extends Controller implements Initializable {
 
+    /**
+     * Used to format floats into a standard 2 decimal value
+     */
     private final static DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+    
+    /**
+     * File name for the saved ranked weights
+     */
     private final static String SAVED_RANK_WEIGHT_YAML ="savedRankWeight.yaml";
 
     @FXML
@@ -70,6 +80,10 @@ public class SchoolRankingController extends Controller implements Initializable
     @FXML
     private Label lblAvgPointDiff;
 
+    /**
+     * This is the handler for the Rank Calculation button. It saves the selected school and opens the Rank Calculation page
+     * @param event 
+     */
     @FXML
     private void rankCalc(ActionEvent event){
         if (!tbSchoolRanking.getItems().isEmpty() && tbSchoolRanking.getSelectionModel().getSelectedItem() != null ) {
@@ -80,6 +94,11 @@ public class SchoolRankingController extends Controller implements Initializable
         loadPage(RANK_CALC_PAGE_FXML);
     }
 
+    /**
+     * Initializes the School Ranking page on load
+     * @param location
+     * @param resources 
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initializeLabels();
@@ -89,6 +108,9 @@ public class SchoolRankingController extends Controller implements Initializable
         }
     }
 
+    /**
+     * Loads the drop down boxes with values from the YAML files
+     */
     private void initializeChoiceBoxes(){
         final List<String> yearList = new ArrayList<>();
         final int startingYear = Controller.getGeneralProperties().getStartingYear();
@@ -103,6 +125,9 @@ public class SchoolRankingController extends Controller implements Initializable
         sportChoice.getSelectionModel().selectFirst();
     }
 
+    /**
+     * Loads the values of the RankWeight object into the labels for the rank weights
+     */
     private void initializeLabels() {
         final RankWeight rankWeight = loadRankWeight(SAVED_RANK_WEIGHT_YAML);
 
@@ -111,12 +136,15 @@ public class SchoolRankingController extends Controller implements Initializable
         lblAvgPointDiff.setText(decimalFormat.format(rankWeight.getAvgOppDifference()));
     }
 
+    /**
+     * Handles the Rank Schools button event and begins the scrape data process
+     * @param event 
+     */
     @FXML
     private void processRankSchoolsEvent(ActionEvent event) {
-        scrapeData();
-    }
-
-    private void scrapeData() {
+        /**
+         * Clears all record data from the schools before running the scrape process
+         */
         initializeSchools();
         final String yearSelectedString = yearChoice.getValue();
         final String sportSelectedString = sportChoice.getValue().toString();
@@ -134,6 +162,11 @@ public class SchoolRankingController extends Controller implements Initializable
         }
 
         try {
+            
+            /**
+             * Present an alert to the user indicating the process may take some time.
+             * This should be updated to a progress bar when the threading is refactored to allow for this.
+             */
             final Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText("Ranking Schools");
@@ -141,19 +174,25 @@ public class SchoolRankingController extends Controller implements Initializable
             alert.getDialogPane().lookupButton(ButtonType.OK).setDisable(true);
             alert.show();
 
-            //Scrapes data
+            /** 
+             * Scrapes data
+             */
             final ScrapeData scrapeData = new ScrapeData();
             final List<School> schools = scrapeData.scrapeData(yearSelectedString, sportSelected.getSeason(), sportSelected.getPath(), rankWeight);
 
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             alert.close();
 
-            //Ranking and sorting
+            /**
+             * Sorts schools list by Rank Points
+             */
             schools.sort((school1, school2) -> (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100)));
 
             setSchoolsRanked(true);
 
-            //Populating the UI table
+            /**
+             * Populates the table on the School Ranking Page
+             */
             populateTable(schools);
 
         } catch (InterruptedException | TimeoutException ex) {
@@ -171,7 +210,9 @@ public class SchoolRankingController extends Controller implements Initializable
         avgPointDiff.setCellValueFactory(new PropertyValueFactory<>("avgPointDiff"));
         totalPoints.setCellValueFactory(new PropertyValueFactory<>("totalPoints"));
 
-        //List that populates the UI Table
+        /**
+         * List that populates the UI Table
+         */
         final ObservableList<SchoolRankingController.FXSchoolRankingTable> rankedSchools = FXCollections.observableArrayList();
 
         //Output schools with wrong information
@@ -183,7 +224,9 @@ public class SchoolRankingController extends Controller implements Initializable
                         + ", Record incorrect: " + school.isWinLossRecordIncorrect())
                 .forEach(System.out::println);
 
-        //Populating the Ranked School List
+        /**
+         * Populating the Ranked School List
+         */
         schools.stream()
                 .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
                 .forEach(school -> rankedSchools.add(
@@ -192,6 +235,9 @@ public class SchoolRankingController extends Controller implements Initializable
         tbSchoolRanking.setItems(rankedSchools);
     }
 
+    /**
+     * Remove all sport information from the schools before running the scrape process
+     */
     public static void initializeSchools() {
         for (School school : getSchools()) {
             school.initialize();
@@ -200,7 +246,7 @@ public class SchoolRankingController extends Controller implements Initializable
 
     /**
      * In order to load information on the UI, we need to create a class with the JavaFX
-     * bean properties ex: SimpleStringProperty and SimpleFloatProperty.
+     * bean properties ex: SimpleStringProperty and SimpleIntegerProperty.
      *
      * Created a local class FXSchoolRankingTable for this purpose
      */

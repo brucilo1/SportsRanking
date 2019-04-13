@@ -66,6 +66,9 @@ public class SchoolRankingController extends Controller implements Initializable
     public TableColumn<SchoolRankingController.FXSchoolRankingTable, Float> totalPoints;
 
     @FXML
+    public TableColumn<SchoolRankingController.FXSchoolRankingTable, String> recordIncorrect;
+
+    @FXML
     public ChoiceBox<String> yearChoice;
 
     @FXML
@@ -209,6 +212,7 @@ public class SchoolRankingController extends Controller implements Initializable
         oppWins.setCellValueFactory(new PropertyValueFactory<>("oppWins"));
         avgPointDiff.setCellValueFactory(new PropertyValueFactory<>("avgPointDiff"));
         totalPoints.setCellValueFactory(new PropertyValueFactory<>("totalPoints"));
+        recordIncorrect.setCellValueFactory(new PropertyValueFactory<>("recordIncorrect"));
 
         /**
          * List that populates the UI Table
@@ -250,6 +254,7 @@ public class SchoolRankingController extends Controller implements Initializable
         private final SimpleIntegerProperty oppWins;
         private final SimpleStringProperty avgPointDiff;
         private final SimpleStringProperty totalPoints;
+        private final SimpleStringProperty recordIncorrect;
         private final School school;
         
         private FXSchoolRankingTable(Integer rank, String league, School school) {
@@ -262,6 +267,7 @@ public class SchoolRankingController extends Controller implements Initializable
             this.oppWins = new SimpleIntegerProperty(school.getOpponentsTotalWins());
             this.avgPointDiff = new SimpleStringProperty(DECIMAL_FORMAT.format(school.getAvgPointDifference()));
             this.totalPoints = new SimpleStringProperty(DECIMAL_FORMAT.format(school.getRankPoints()));
+            this.recordIncorrect = new SimpleStringProperty(school.isWinLossRecordIncorrect() ? "YES" : "");
             this.school = school;
         }
 
@@ -329,8 +335,16 @@ public class SchoolRankingController extends Controller implements Initializable
             return totalPoints;
         }
 	         
+        public String getRecordIncorrect() {
+            return recordIncorrect.get();
+        }
+
+        public SimpleStringProperty recordIncorrectProperty() {
+            return recordIncorrect;
+        }
+        
         public School getSchool() {
             return school;
-        }
+        }        
     }
 }

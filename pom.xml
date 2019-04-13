@@ -25,6 +25,12 @@
             <version>1.21</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <artifactId>slf4j-log4j12</artifactId>
+            <groupId>org.slf4j</groupId>
+            <version>1.6.5</version>
+        </dependency>
+
     </dependencies>
 
     <build>

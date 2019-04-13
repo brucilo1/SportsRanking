@@ -13,6 +13,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -21,7 +23,7 @@ import org.yaml.snakeyaml.Yaml;
  * @author arielwatkins
  */
 public class ManageWeightsController extends Controller implements Initializable {
-    
+    private static final Logger LOG = LoggerFactory.getLogger(ManageWeightsController.class);
     private static final DecimalFormat df = new DecimalFormat( "0.00" );
     private static final String DEFAULT_RANK_WEIGHT_YAML ="defaultRankWeight.yaml";
     private static final String SAVED_RANK_WEIGHT_YAML ="savedRankWeight.yaml";
@@ -51,8 +53,8 @@ public class ManageWeightsController extends Controller implements Initializable
             winLossWeight.setText(df.format(rankWeight.getWinLoss()));
             oppWinsWeight.setText(df.format(rankWeight.getOppWins()));
             avgPtsDiffWeight.setText(df.format(rankWeight.getAvgOppDifference()));
-        } catch (Exception e) {
-            System.out.println("Error loading saved rank weights");
+        } catch (Exception ex) {
+            LOG.error("Error loading saved rank weights", ex);
             System.exit(-1);
         }
     }
@@ -108,8 +110,8 @@ public class ManageWeightsController extends Controller implements Initializable
         try {
             FileWriter writer = new FileWriter(configPath + SAVED_RANK_WEIGHT_YAML);
             yaml.dump(rankWeight, writer);
-        } catch (IOException e) {
-           System.out.println("Error occurred while saving the rank weights" + e.getMessage());
+        } catch (IOException ex) {
+           LOG.error("Error occurred while saving the rank weights", ex);
         }
     }
 }

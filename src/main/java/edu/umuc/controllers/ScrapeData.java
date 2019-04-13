@@ -6,8 +6,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ScrapeData {
+        private static final Logger LOG = LoggerFactory.getLogger(ScrapeData.class);
+
 	public List<School> scrapeData(String year, String season, String sport, RankWeight rankWeight) throws InterruptedException, TimeoutException {
 
 		final List<School> schools = Controller.getSchools();
@@ -16,7 +20,6 @@ public class ScrapeData {
 
 		schools.forEach(school -> {
 			final GetDataThread task = new GetDataThread(school, year, season, sport);
-			System.out.println("A new task has been added : " + school.getUrlPath() + ", School #: " + schools.indexOf(school));
 			executor.execute(task);
 		});
 
@@ -32,10 +35,9 @@ public class ScrapeData {
 							.orElse(null);
 
 					if (oppSchool == null) {
-						System.out.println("Unable to find school path for opponent: " + opponent);
+                                            LOG.warn("Unable to find school path for opponent: " + opponent);
 					} else {
-						System.out.println("Processing school: " + school.getSchoolName());
-						school.addOpponentWins(oppSchool.getWins());
+                                            school.addOpponentWins(oppSchool.getWins());
 					}
 				});
 

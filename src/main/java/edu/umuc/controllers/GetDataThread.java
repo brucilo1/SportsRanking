@@ -16,13 +16,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class GetDataThread implements Runnable {
-	School school;
-	Thread t;
-	String year;
-	String season;
-	String sport;
+        private static final Logger LOG = LoggerFactory.getLogger(GetDataThread.class);
+
+	private School school;
+	private Thread thread;
+	private String year;
+	private String season;
+	private String sport;
 	
 	public GetDataThread (School school, String year, String season, String sport){
 		this.school = school;
@@ -35,9 +39,8 @@ class GetDataThread implements Runnable {
 	public void run() {
 		try {
 			setSchoolData();
-		} catch (IOException e) {
-                        System.out.println("Error with school: " + school.getSchoolName());
-			e.printStackTrace();
+		} catch (IOException ex) {
+                        LOG.error("Exception with school: " + school.getSchoolName(), ex);
 		}
 	}
 
@@ -60,11 +63,9 @@ class GetDataThread implements Runnable {
 				Document dataPage = Jsoup.connect(url).timeout(60 * 1000).get();  // 60 Seconds
                                 String title = dataPage.title();
                                 if (title == null || title.startsWith("404")) {
-                                    System.out.println("Missing page for school: " + school.getSchoolName() + " using URL: " + url);    
-                                } else {
-                                    System.out.println(title);
+                                    LOG.warn("Missing page for school: " + school.getSchoolName() + " using URL: " + url);    
                                 }
-
+                                
                                 int recordWins = 0;
                                 int recordLosses = 0;
                                 Elements recordElements = dataPage.getElementsByClass("record");
@@ -77,7 +78,6 @@ class GetDataThread implements Runnable {
                                         int dashLocation = recordText.indexOf("-");
                                         String winsText = recordText.substring(0, dashLocation).trim();
                                         String lossesText = recordText.substring(dashLocation+1).trim();
-                                        System.out.println(school.getSchoolName() + " - '" + winsText + "', '" + lossesText + "'"); // TODO: Remove this
                                         recordWins = cleanScore(winsText);
                                         recordLosses = cleanScore(lossesText);
                                     }
@@ -148,11 +148,10 @@ class GetDataThread implements Runnable {
 			} catch (SocketTimeoutException | SSLHandshakeException | ConnectException e) {
                             isError = true;
                             errorCount++;
-			} catch (Exception e) {
+			} catch (Exception ex) {
                             isError = true;
                             errorCount++;
-                            System.out.println("Error with school: " + school.getSchoolName());
-                            e.printStackTrace();   
+                            LOG.error("Exception with school: " + school.getSchoolName(), ex);
                         }
 		} while (isError && errorCount < 3); 
 

@@ -215,15 +215,6 @@ public class SchoolRankingController extends Controller implements Initializable
          */
         final ObservableList<SchoolRankingController.FXSchoolRankingTable> rankedSchools = FXCollections.observableArrayList();
 
-        //Output schools with wrong information
-        schools.stream()
-                .filter(school -> !(school.getWins() == 0 && school.getLosses() == 0))
-                .map(school -> school.getSchoolName()
-                        + ", League: " + getLeagueNameForSchool(school.getSchoolName())
-                        + ", Rank Points: " + school.getRankPoints()
-                        + ", Record incorrect: " + school.isWinLossRecordIncorrect())
-                .forEach(System.out::println);
-
         /**
          * Populating the Ranked School List
          */

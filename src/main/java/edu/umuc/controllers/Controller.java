@@ -23,8 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -35,6 +35,7 @@ public class Controller {
     public static final String RANK_CALC_PAGE_FXML = "/RankCalculation.fxml";
     private static final String MANAGE_WEIGHTS_FXML = "/ManageWeights.fxml";
     private static final String CONFIG_PROPERTIES = "/config.properties";
+    private static final Logger LOG = LoggerFactory.getLogger(Controller.class);
 
     private static GeneralProperties generalProperties = null;
     private final static Float DEFAULT_LEAGUE_WEIGHT = 1F;
@@ -64,23 +65,21 @@ public class Controller {
     public Controller() {
         try {
             final Properties properties = new Properties();
-//            InputStream is = new FileInputStream(new File("C:\\Users\\jhender1\\Documents\\NetBeansProjects\\SportsRanking\\src\\main\\resources" + CONFIG_PROPERTIES));
-//            properties.load(is);
             properties.load(this.getClass().getResourceAsStream(CONFIG_PROPERTIES));
             configPath = properties.getProperty("configpath");
             if (configPath == null) {
-                System.out.println("No config path found in the properties file.");
+                LOG.error("No config path found in the properties file.");
                 System.exit(-1);
             }
-        } catch (IOException e) {
-            System.out.println("Unable to read read the config.properties file");
+        } catch (IOException ex) {
+            LOG.error("Unable to read read the config.properties file", ex);
             System.exit(-1);
         }
 
         if (generalProperties == null) {
             loadGeneralPropertiesData();
             if (generalProperties == null) {
-                System.out.println("General Properties not loaded");
+                LOG.error("General Properties not loaded");
                 System.exit(-1);
             }
         }
@@ -88,7 +87,7 @@ public class Controller {
         if (leagues.isEmpty()) {
             loadLeaguesData();
             if (leagues.isEmpty()) {
-                System.out.println("Leagues not loaded");
+                LOG.error("Leagues not loaded");
                 System.exit(-1);
             }
         }
@@ -96,7 +95,7 @@ public class Controller {
         if (schools.isEmpty()) {
             loadSchoolsData();
             if (schools.isEmpty()) {
-                System.out.println("Schools not loaded");
+                LOG.error("Schools not loaded");
                 System.exit(-1);
             }
         }
@@ -104,7 +103,7 @@ public class Controller {
         if (sports.isEmpty()) {
             loadSportsData();
             if (sports.isEmpty()) {
-                System.out.println("Sports not loaded");
+                LOG.error("Sports not loaded");
                 System.exit(-1);
             }
         }
@@ -170,7 +169,7 @@ public class Controller {
             returnRankWeight = yaml.load(new FileInputStream(file));
             rankWeight = returnRankWeight;
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.error("Exception in loadRankWeight", ex);
         }
         return returnRankWeight;
     }
@@ -181,7 +180,7 @@ public class Controller {
             Yaml yaml = new Yaml();
             generalProperties = yaml.loadAs(inputStream, GeneralProperties.class);
         } catch (Exception ex) {
-            System.out.println("Error loading general properties data YAML file. Exception: " + ex.getMessage());
+            LOG.error("Exception loading general properties data YAML file.", ex);
         }
     }
         
@@ -204,9 +203,8 @@ public class Controller {
                 leagues.add(league);
             });
 
-        } catch (Exception e) {
-            System.out.println("Error loading Schools Yaml file");
-            e.printStackTrace();
+        } catch (Exception ex) {
+            LOG.error("Exception loading Leagues Yaml file.", ex);
             System.exit(-1);
         }
     }
@@ -223,9 +221,8 @@ public class Controller {
                 schools.add(school);
             });
 
-        } catch (Exception e) {
-            System.out.println("Error loading Schools Yaml file");
-            e.printStackTrace();
+        } catch (Exception ex) {
+            LOG.error("Exception loading Schools Yaml file.", ex);
             System.exit(-1);
         }
     }
@@ -242,9 +239,8 @@ public class Controller {
                 sports.add(sport);
             });
             Collections.sort(sports);
-        } catch (Exception e) {
-            System.out.println("Error loading Sports Yaml file");
-            e.printStackTrace();
+        } catch (Exception ex) {
+            LOG.error("Exception loading Sports Yaml file.", ex);
             System.exit(-1);
         }
     }

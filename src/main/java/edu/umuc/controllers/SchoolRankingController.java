@@ -93,6 +93,8 @@ public class SchoolRankingController extends Controller implements Initializable
             final School selected = tbSchoolRanking.getSelectionModel().getSelectedItem().getSchool();
             setSelectedSchool(selected);
             setSelectedLeague(getLeagueForSchool(selected.getSchoolName()));
+            setSportSelected(sportChoice.getValue());
+            setYearSelected(yearChoice.getValue().toString());
         }
         loadPage(RANK_CALC_PAGE_FXML);
     }
@@ -121,11 +123,22 @@ public class SchoolRankingController extends Controller implements Initializable
         for (int year = LocalDate.now().getYear(); year >= startingYear; year--) {
             yearList.add(String.valueOf(year));
         }
-        yearChoice.setItems((FXCollections.observableArrayList(yearList)));
-        yearChoice.getSelectionModel().selectFirst();
-
         sportChoice.setItems(FXCollections.observableArrayList(getSports()));
-        sportChoice.getSelectionModel().selectFirst();
+        Sport sportSelected = Controller.getSportSelected();
+        if (sportSelected == null) {
+            sportChoice.getSelectionModel().selectFirst();
+        } else {
+            int sportSelectedIndex = sportChoice.getItems().indexOf(sportSelected);
+            sportChoice.getSelectionModel().select(sportSelectedIndex);
+        }
+
+        yearChoice.setItems((FXCollections.observableArrayList(yearList)));
+        String yearSelected = Controller.getYearSelected();
+        if (yearSelected == null) {
+            yearChoice.getSelectionModel().selectFirst();
+        } else {
+            yearChoice.getSelectionModel().select(yearSelected);
+        }
     }
 
     /**

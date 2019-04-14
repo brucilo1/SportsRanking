@@ -22,22 +22,22 @@ public class School {
     /** 
      * Stores the calculated rankPoints
      */
-    private Float rankPoints = 0f;
+    private float rankPoints = 0f;
     
     /**
      * Stores the number of wins for the school
      */
-    private Integer wins = 0;
+    private int wins = 0;
     
     /** 
      * Stores the number of losses for the school
      */
-    private Integer losses = 0;
+    private int losses = 0;
     
     /** 
      * Stores the average point difference for the school
      */
-    private Float avgPointDifference = 0f;
+    private float avgPointDifference = 0f;
     
     /** 
      * Stores the list of opponents for the school
@@ -47,7 +47,7 @@ public class School {
     /** 
      * Stores the total wins from the schools opponents
      */
-    private Integer opponentsTotalWins = 0;
+    private int opponentsTotalWins = 0;
     
     /**
      * Flag to indicate the record on the Washington Post website does not match the total Wins and Losses found in the results
@@ -92,35 +92,35 @@ public class School {
         this.urlPath = urlPath;
     }
 
-    public Float getRankPoints() {
+    public float getRankPoints() {
         return rankPoints;
     }
 
-    public void setRankPoints(Float rankPoints) {
+    public void setRankPoints(float rankPoints) {
         this.rankPoints = rankPoints;
     }
 
-    public Integer getWins() {
+    public int getWins() {
         return wins;
     }
 
-    public void setWins(Integer wins) {
+    public void setWins(int wins) {
         this.wins = wins;
     }
 
-    public Integer getLosses() {
+    public int getLosses() {
         return losses;
     }
 
-    public void setLosses(Integer losses) {
+    public void setLosses(int losses) {
         this.losses = losses;
     }
 
-    public Float getAvgPointDifference() {
+    public float getAvgPointDifference() {
         return avgPointDifference;
     }
 
-    public void setAvgPointDifference(Float avgPointDifference) {
+    public void setAvgPointDifference(float avgPointDifference) {
         this.avgPointDifference = avgPointDifference;
     }
 
@@ -132,11 +132,11 @@ public class School {
         this.opponents = opponents;
     }
 
-    public Integer getOpponentsTotalWins() {
+    public int getOpponentsTotalWins() {
         return opponentsTotalWins;
     }
 
-    public void setOpponentsTotalWins(Integer opponentsTotalWins) {
+    public void setOpponentsTotalWins(int opponentsTotalWins) {
         this.opponentsTotalWins = opponentsTotalWins;
     }
 
@@ -165,7 +165,7 @@ public class School {
      * @param leagueWeight
      * @return points for school wins
      */
-    public float getPointsForWins(Float leagueWeight) {
+    public float getPointsForWins(float leagueWeight) {
         return wins * leagueWeight;
     }
 
@@ -174,7 +174,7 @@ public class School {
      * @param leagueWeight
      * @return points for school losses
      */
-    public float getPointsForLosses(Float leagueWeight) {
+    public float getPointsForLosses(float leagueWeight) {
         return (losses * (1/leagueWeight)) * -1;
     }
 
@@ -184,7 +184,7 @@ public class School {
      * @param leagueWeight
      * @return total points for wins and losses
      */
-    public float getSumOfPoints(RankWeight rankWeight, Float leagueWeight) {
+    public float getSumOfPoints(RankWeight rankWeight, float leagueWeight) {
         return (getPointsForWins(leagueWeight) + getPointsForLosses(leagueWeight)) * rankWeight.getWinLoss();
     }
 
@@ -212,7 +212,7 @@ public class School {
      * @param leagueWeight
      * @return total points
      */
-    public float getTotalPoints(RankWeight rankWeight, Float leagueWeight) {
+    public float getTotalPoints(RankWeight rankWeight, float leagueWeight) {
         rankPoints = getSumOfPoints(rankWeight, leagueWeight) + getPointsFromOpponentWins(rankWeight) + getPointsFromAveragePointDifferential(rankWeight);
         return rankPoints;
     }

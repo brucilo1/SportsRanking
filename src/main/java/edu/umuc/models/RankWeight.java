@@ -8,48 +8,48 @@ public class RankWeight {
     /**
      * The rank weight for a schools wins and losses
      */
-    private Float winLoss;
+    private float winLoss;
  
     /**
      * The rank weight for the opponent wins
      */
-    private Float oppWins;
+    private float oppWins;
     
     /**
      * The rank weight for average opponent point differences
      */
-    private Float avgOppDifference;
+    private float avgOppDifference;
 
     public RankWeight() {
     }
 
-    public RankWeight(Float winLoss, Float oppWins, Float avgOppDifference) {
+    public RankWeight(float winLoss, float oppWins, float avgOppDifference) {
         this.winLoss = winLoss;
         this.oppWins = oppWins;
         this.avgOppDifference = avgOppDifference;
     }
 
-    public Float getWinLoss() {
+    public float getWinLoss() {
         return winLoss;
     }
 
-    public void setWinLoss(Float winLoss) {
+    public void setWinLoss(float winLoss) {
         this.winLoss = winLoss;
     }
 
-    public Float getOppWins() {
+    public float getOppWins() {
         return oppWins;
     }
 
-    public void setOppWins(Float oppWins) {
+    public void setOppWins(float oppWins) {
         this.oppWins = oppWins;
     }
 
-    public Float getAvgOppDifference() {
+    public float getAvgOppDifference() {
         return avgOppDifference;
     }
 
-    public void setAvgOppDifference(Float avgOppDifference) {
+    public void setAvgOppDifference(float avgOppDifference) {
         this.avgOppDifference = avgOppDifference;
     }
 }

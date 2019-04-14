@@ -5,14 +5,14 @@ import java.util.List;
 public class League {
     private String leagueId;
     private String name;
-    private Float weight;
+    private float weight;
     private List<String> schools;
 
     public League() {
         
     }
     
-    public League(String leagueId, String leagueName, Float leagueWeight) {
+    public League(String leagueId, String leagueName, float leagueWeight) {
         this.leagueId = leagueId;
         this.name = leagueName;
         this.weight = leagueWeight;
@@ -34,11 +34,11 @@ public class League {
         this.name = leagueName;
     }
 
-    public Float getWeight() {
+    public float getWeight() {
         return weight;
     }
 
-    public void setWeight(Float leagueWeight) {
+    public void setWeight(float leagueWeight) {
         this.weight = leagueWeight;
     }
 

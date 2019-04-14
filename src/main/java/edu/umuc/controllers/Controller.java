@@ -56,6 +56,8 @@ public class Controller {
     private static RankWeight rankWeight;
     private static School selectedSchool;
     private static League selectedLeague;
+    private static Sport sportSelected;
+    private static String yearSelected;
     private static boolean schoolsRanked = false;
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat( "0.00" );
@@ -319,4 +321,21 @@ public class Controller {
     public static void setSchoolsRanked(boolean schoolsRanked) {
         Controller.schoolsRanked = schoolsRanked;
     }
+
+    public static Sport getSportSelected() {
+        return sportSelected;
+    }
+
+    public static void setSportSelected(Sport sportSelected) {
+        Controller.sportSelected = sportSelected;
+    }
+
+    public static String getYearSelected() {
+        return yearSelected;
+    }
+
+    public static void setYearSelected(String yearSelected) {
+        Controller.yearSelected = yearSelected;
+    }
+    
 }

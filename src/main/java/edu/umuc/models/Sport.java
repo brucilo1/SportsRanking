@@ -1,5 +1,7 @@
 package edu.umuc.models;
 
+import java.util.Objects;
+
 /**
  * Represents a Sport and stores the information needed to build the url to scrape data
  * example: fall is the season and football is the path in https://www.washingtonpost.com/allmetsports/2018-fall/paint-branch/football/
@@ -60,4 +62,30 @@ public class Sport implements Comparable<Sport>{
     public String toString() {
         return name;
     }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Sport other = (Sport) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.season, other.season)) {
+            return false;
+        }
+        if (!Objects.equals(this.path, other.path)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

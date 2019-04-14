@@ -276,8 +276,6 @@ public class RankCalculationController extends Controller implements Initializab
 
         public String getTotalPoints() {
             return totalPoints.get();
-        } 
-
-        
+        }
     }
 }

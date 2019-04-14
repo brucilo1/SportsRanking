@@ -9,11 +9,17 @@ import javafx.stage.Stage;
 import static edu.umuc.controllers.Controller.HOME_PAGE_FXML;
 
 public class SportsRankingApp extends Application {
-    //Static variables
+    /**
+     * Static variables associated with the SCENE
+     */
     private static final int DEFAULT_SCENE_WIDTH = 900;
     private static final int DEFAULT_SCENE_HEIGHT = 700;
 
-    //Declaring Primary Stage here for re-usability in Controllers
+    /**
+     * The primary stage refers to the active window. In our design, we always want
+     * to close the previous windows and open a new one. If this design were to
+     * change, the developer would need to create a new stage.
+     */
     private static Stage primaryStage;
 
     private void setPrimaryStage(Stage stage) {
@@ -34,6 +40,9 @@ public class SportsRankingApp extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Main class of the application
+     */
     public static void main(String[] args) {
         launch(args);
     }

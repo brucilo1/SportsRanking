@@ -1,7 +1,8 @@
 package edu.umuc.models;
 
 /**
- * Stores all of the information of a set of rank weights to be used in the calculation of the rank points for a school
+ * Stores all of the information of a set of rank weights to
+ * be used in the calculation of the rank points for a school
  */
 public class RankWeight {
     

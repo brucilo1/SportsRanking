@@ -35,6 +35,9 @@ public class LeagueController extends Controller implements Initializable {
         loadLeagueInformation();
     }
 
+    /**
+     * Loads the league information on the UI tbLeague table
+     */
     private void loadLeagueInformation(){
         lgSchoolName.setCellValueFactory(new PropertyValueFactory<>("lgSchoolName"));
         lgLeagueName.setCellValueFactory(new PropertyValueFactory<>("lgLeagueName"));

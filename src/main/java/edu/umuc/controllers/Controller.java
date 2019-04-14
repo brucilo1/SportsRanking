@@ -28,42 +28,59 @@ import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 
 public class Controller {
-    //Resources
+    /**
+     * Static FXML file locations
+     */
     public static final String SCHOOL_RANKING_FXML = "/SchoolRanking.fxml";
     public static final String LEAGUES_FXML = "/Leagues.fxml";
     public static final String HOME_PAGE_FXML = "/HomePage.fxml";
     public static final String RANK_CALC_PAGE_FXML = "/RankCalculation.fxml";
     private static final String MANAGE_WEIGHTS_FXML = "/ManageWeights.fxml";
     private static final String CONFIG_PROPERTIES = "/config.properties";
+
+    /**
+     * Initialize logger
+     */
     private static final Logger LOG = LoggerFactory.getLogger(Controller.class);
 
-    private static GeneralProperties generalProperties = null;
+    /**
+     * Default values
+     */
     private final static Float DEFAULT_LEAGUE_WEIGHT = 1F;
     private final static String DEFAULT_LEAGUE_NAME = "NONE";
 
-    //Config files
+    /**
+     * Configuration files
+     */
     private static final String GENERAL_PROPERTIES_YAML = "generalProperties.yaml";
     private final static String LEAGUES_YAML = "leagues.yaml";
     private final static String SCHOOLS_YAML = "schools.yaml";
     private final static String SPORTS_YAML = "sports.yaml";
 
-    //TODO revisit if these need to be static
-    private static List<League> leagues = new ArrayList<>();
-    private static List<School> schools = new ArrayList<>();
-    
     private List<Sport> sports = new ArrayList<>();
-    
+
+    /**
+     * Static class attributes that allows data to be accessible between pages
+     */
+    private static final List<League> leagues = new ArrayList<>();
+    private static final List<School> schools = new ArrayList<>();
     private static RankWeight rankWeight;
     private static School selectedSchool;
     private static League selectedLeague;
     private static Sport sportSelected;
     private static String yearSelected;
+    private static GeneralProperties generalProperties;
     private static boolean schoolsRanked = false;
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat( "0.00" );
     
     protected String configPath;
-        
+
+    /**
+     * Controller Constructor. This application depends on successfully reading the contents of
+     * the YAML files. If the system is not able to read these YAML files for any reason, the
+     * application will exit.
+     */
     public Controller() {
         try {
             final Properties properties = new Properties();
@@ -149,6 +166,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Common method to load the corresponding FXML page
+     */
     protected void loadPage(String fxmlUrl) {
         try {
             final FXMLLoader fxmlLoader = new FXMLLoader();
@@ -161,10 +181,15 @@ public class Controller {
         }
     }
 
-    //Added method for re-usability purposes in child classes
+    /**
+     * Added method for re-usability purposes in child classes
+     */
     protected RankWeight loadRankWeight(String yamlName) {
         RankWeight returnRankWeight = new RankWeight();
-        // Loads the saved weights from the corresponding YAML file
+
+        /**
+         * Loads the saved weights from the corresponding YAML file
+         */
         final Yaml yaml = new Yaml(new Constructor(RankWeight.class));
         final File file = new File(configPath, yamlName);
         try {

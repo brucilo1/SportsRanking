@@ -2,10 +2,28 @@ package edu.umuc.models;
 
 import java.util.List;
 
+/**
+ * Stores information about a league
+ */
 public class League {
+    /**
+     * The leagueId to be used like a primary key
+     */
     private String leagueId;
+    
+    /**
+     * The display name of the league
+     */
     private String name;
+    
+    /**
+     * The weight of the league used in the calculation of Rank Points for a school
+     */
     private float weight;
+    
+    /**
+     * List of all schools in the league
+     */
     private List<String> schools;
 
     public League() {
@@ -58,6 +76,4 @@ public class League {
     public String toString() {
         return "League{" + "leagueId=" + leagueId + ", name=" + name + ", weight=" + weight + ", schools=" + schools + '}';
     }
-    
-    
 }

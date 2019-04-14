@@ -18,7 +18,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane layoutX="7.0" layoutY="501.0" prefHeight="48.0" prefWidth="1081.0">
+      <Pane layoutX="7.0" layoutY="510.0" prefHeight="51.0" prefWidth="1083.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <Button fx:id="btnSaveWeights" layoutX="638.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" onAction="#handleSaveWeights" text="Save Weights" textFill="#29288d" />
             <Button fx:id="btnResetWeights" layoutX="280.0" layoutY="3.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="191.0" onAction="#handleResetWeights" text="Reset Weights" textFill="#29288d" />

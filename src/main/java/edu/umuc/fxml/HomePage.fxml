@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="943.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.umuc.controllers.Controller">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="943.0" style="-fx-background-color: #fff;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.umuc.controllers.Controller">
     <children>
         <Pane prefHeight="173.0" prefWidth="980.0" style="-fx-background-color: #23a353;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -32,12 +32,12 @@
                 </Label>
             </children>
         </Pane>
-          <Button fx:id="btnSchoolsRanking" alignment="CENTER" contentDisplay="TOP" layoutX="145.0" layoutY="319.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="157.0" prefWidth="245.0" text="Schools Rankings">
+          <Button fx:id="btnSchoolsRanking" alignment="CENTER" contentDisplay="TOP" layoutX="145.0" layoutY="319.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="157.0" prefWidth="245.0" text="Schools Rankings" AnchorPane.bottomAnchor="145.0">
               <graphic>
                   <FontAwesomeIconView fill="#23a353" glyphName="SOCCER_BALL_ALT" size="50" />
               </graphic>
           </Button>
-          <Button fx:id="btnLeagues" alignment="CENTER" contentDisplay="TOP" layoutX="499.0" layoutY="319.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="157.0" prefWidth="257.0" text="Leagues">
+          <Button fx:id="btnLeagues" alignment="CENTER" contentDisplay="TOP" layoutX="499.0" layoutY="319.0" mnemonicParsing="false" onAction="#processButtonClickEvents" prefHeight="157.0" prefWidth="257.0" text="Leagues" AnchorPane.bottomAnchor="145.0">
               <graphic>
                   <FontAwesomeIconView fill="#23a353" glyphName="INSTITUTION" size="50" text="" />
               </graphic>

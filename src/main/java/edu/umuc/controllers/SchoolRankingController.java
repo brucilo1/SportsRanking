@@ -93,8 +93,6 @@ public class SchoolRankingController extends Controller implements Initializable
             final School selected = tbSchoolRanking.getSelectionModel().getSelectedItem().getSchool();
             setSelectedSchool(selected);
             setSelectedLeague(getLeagueForSchool(selected.getSchoolName()));
-            setSportSelected(sportChoice.getValue());
-            setYearSelected(yearChoice.getValue().toString());
         }
         loadPage(RANK_CALC_PAGE_FXML);
     }
@@ -162,14 +160,16 @@ public class SchoolRankingController extends Controller implements Initializable
          * Clears all record data from the schools before running the scrape process
          */
         initializeSchools();
-        final String yearSelectedString = yearChoice.getValue();
-        final String sportSelectedString = sportChoice.getValue().toString();
+
+        setSportSelected(sportChoice.getValue());
+        setYearSelected(yearChoice.getValue());
+
         final RankWeight rankWeight = new RankWeight(Float.parseFloat(lblWinLoss.getText()),
                 Float.parseFloat(lblOppWins.getText()),
                 Float.parseFloat(lblAvgPointDiff.getText()));
 
         final Sport sportSelected = getSports().stream()
-                .filter(sportItem -> sportSelectedString.equals(sportItem.getName()))
+                .filter(sportItem -> getSportSelected().getName().equals(sportItem.getName()))
                 .findFirst()
                 .orElse(null);
 
@@ -194,7 +194,7 @@ public class SchoolRankingController extends Controller implements Initializable
              * Scrapes data from Washington Post based on the UI selections
              */
             final ScrapeData scrapeData = new ScrapeData();
-            final List<School> schools = scrapeData.scrapeData(yearSelectedString, sportSelected.getSeason(), sportSelected.getPath(), rankWeight);
+            final List<School> schools = scrapeData.scrapeData(getYearSelected(), sportSelected.getSeason(), sportSelected.getPath(), rankWeight);
 
             alert.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
             alert.close();

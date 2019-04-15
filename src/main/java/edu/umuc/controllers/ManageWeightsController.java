@@ -69,6 +69,7 @@ public class ManageWeightsController extends Controller implements Initializable
              * Write saved weight info to file
              */
             saveWeights(savedRankWeight);
+            reRankSchools();
 
             winLossWeight.setText(DECIMAL_FORMAT.format(savedRankWeight.getWinLoss()));
             oppWinsWeight.setText(DECIMAL_FORMAT.format(savedRankWeight.getOppWins()));
@@ -102,6 +103,7 @@ public class ManageWeightsController extends Controller implements Initializable
          * "Autosave" default values on reset
          */
         saveWeights(rankWeight);
+        reRankSchools();
     }
 
     /**

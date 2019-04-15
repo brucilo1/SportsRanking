@@ -200,7 +200,17 @@ public class Controller {
         }
         return returnRankWeight;
     }
-    
+
+    /**
+     * Re-Rank schools with the current weights
+     */
+    protected void reRankSchools() {
+        if (isSchoolsRanked()) {
+            ScrapeData.calculateTotalPoints(getRankWeight(), getSchools());
+            ScrapeData.sortSchools(getSchools());
+        }
+    }
+
     private void loadGeneralPropertiesData() {
         final File generalPropertiesFile = new File(configPath, GENERAL_PROPERTIES_YAML);
         try (InputStream inputStream = new FileInputStream(generalPropertiesFile)) {

@@ -191,7 +191,7 @@ public class SchoolRankingController extends Controller implements Initializable
             alert.show();
 
             /** 
-             * Scrapes data
+             * Scrapes data from Washington Post based on the UI selections
              */
             final ScrapeData scrapeData = new ScrapeData();
             final List<School> schools = scrapeData.scrapeData(yearSelectedString, sportSelected.getSeason(), sportSelected.getPath(), rankWeight);
@@ -200,10 +200,8 @@ public class SchoolRankingController extends Controller implements Initializable
             alert.close();
 
             /**
-             * Sorts schools list by Rank Points
+             * Flag used to determine if schools have been ranked
              */
-            schools.sort((school1, school2) -> (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100)));
-
             setSchoolsRanked(true);
 
             /**

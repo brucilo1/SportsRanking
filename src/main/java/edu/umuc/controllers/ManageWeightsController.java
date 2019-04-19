@@ -55,36 +55,38 @@ public class ManageWeightsController extends Controller implements Initializable
      */
     @FXML
     public void handleSaveWeights() {
-        try{
-            /**
-             * Convert textfield input to float and store new values
-             */
-            final Float winLoss = Float.parseFloat(winLossWeight.getText());
-            final Float oppWins = Float.parseFloat(oppWinsWeight.getText());
-            final Float avgOppDifference = Float.parseFloat(avgPtsDiffWeight.getText());
-            final RankWeight savedRankWeight = new RankWeight(winLoss, oppWins, avgOppDifference);
-            setRankWeight(savedRankWeight);
+        if (proceedSavingWeights()) {
+            try{
+                /**
+                 * Convert textfield input to float and store new values
+                 */
+                final Float winLoss = Float.parseFloat(winLossWeight.getText());
+                final Float oppWins = Float.parseFloat(oppWinsWeight.getText());
+                final Float avgOppDifference = Float.parseFloat(avgPtsDiffWeight.getText());
+                final RankWeight savedRankWeight = new RankWeight(winLoss, oppWins, avgOppDifference);
+                setRankWeight(savedRankWeight);
 
-            /**
-             * Write saved weight info to file
-             */
-            saveWeights(savedRankWeight);
-            reRankSchools();
+                /**
+                 * Write saved weight info to file
+                 */
+                saveWeights(savedRankWeight);
+                reRankSchools();
 
-            winLossWeight.setText(DECIMAL_FORMAT.format(savedRankWeight.getWinLoss()));
-            oppWinsWeight.setText(DECIMAL_FORMAT.format(savedRankWeight.getOppWins()));
-            avgPtsDiffWeight.setText(DECIMAL_FORMAT.format(savedRankWeight.getAvgOppDifference()));
+                winLossWeight.setText(DECIMAL_FORMAT.format(savedRankWeight.getWinLoss()));
+                oppWinsWeight.setText(DECIMAL_FORMAT.format(savedRankWeight.getOppWins()));
+                avgPtsDiffWeight.setText(DECIMAL_FORMAT.format(savedRankWeight.getAvgOppDifference()));
 
-        } catch (NumberFormatException e){
-            /**
-             * Display alert window to the user if an invalid value is entered
-             */
-            final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Information Dialog");
-            alert.setHeaderText("Invalid Value Detected");
-            alert.setContentText("Please only enter numeric values.");
+            } catch (NumberFormatException e){
+                /**
+                 * Display alert window to the user if an invalid value is entered
+                 */
+                final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Information Dialog");
+                alert.setHeaderText("Invalid Value Detected");
+                alert.setContentText("Please only enter numeric values.");
 
-            alert.showAndWait();
+                alert.showAndWait();
+            }
         }
     }
 
@@ -93,17 +95,19 @@ public class ManageWeightsController extends Controller implements Initializable
      */
     @FXML
     private void handleResetWeights() {
-        final RankWeight rankWeight = super.loadRankWeight(DEFAULT_RANK_WEIGHT_YAML);
-        setRankWeight(rankWeight);
-        winLossWeight.setText(DECIMAL_FORMAT.format(rankWeight.getWinLoss()));
-        oppWinsWeight.setText(DECIMAL_FORMAT.format(rankWeight.getOppWins()));
-        avgPtsDiffWeight.setText(DECIMAL_FORMAT.format(rankWeight.getAvgOppDifference()));
+        if (proceedSavingWeights()) {
+            final RankWeight rankWeight = super.loadRankWeight(DEFAULT_RANK_WEIGHT_YAML);
+            setRankWeight(rankWeight);
+            winLossWeight.setText(DECIMAL_FORMAT.format(rankWeight.getWinLoss()));
+            oppWinsWeight.setText(DECIMAL_FORMAT.format(rankWeight.getOppWins()));
+            avgPtsDiffWeight.setText(DECIMAL_FORMAT.format(rankWeight.getAvgOppDifference()));
 
-        /**
-         * "Autosave" default values on reset
-         */
-        saveWeights(rankWeight);
-        reRankSchools();
+            /**
+             * "Autosave" default values on reset
+             */
+            saveWeights(rankWeight);
+            reRankSchools();
+        }
     }
 
     /**
@@ -120,6 +124,30 @@ public class ManageWeightsController extends Controller implements Initializable
         } catch (IOException ex) {
            LOG.error("Error occurred while saving the rank weights", ex);
         }
+    }
+
+    private boolean proceedSavingWeights() {
+        final boolean retValue;
+
+        /**
+         * Only ask for confirmation if there are school results
+         */
+        if (isSchoolsRanked()) {
+            final Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText("Updating the weights will also update the School Ranking results");
+            alert.setContentText("Do you want to proceed?");
+            alert.showAndWait();
+
+            /**
+             * If the user did not click the cancel button, return true
+             */
+            retValue = !alert.getResult().getButtonData().getTypeCode().equals("C");
+        } else {
+            retValue = true;
+        }
+
+        return retValue;
     }
 }
 

@@ -58,7 +58,7 @@ name: Girls' Indoor Track and Field
 season: winter
 path: girls-indoor-track-and-field
 ---
-name: Gymnastics
+name: Gymnastics - Winter
 season: winter
 path: gymnastics
 ---
@@ -102,6 +102,6 @@ name: Girls' Rowing
 season: spring
 path: girls-rowing
 ---
-name: Gymnastics
+name: Gymnastics - Spring
 season: spring
 path: gymnastics

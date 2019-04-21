@@ -15,8 +15,8 @@ public class SportsRankingApp extends Application {
     /**
      * Static variables associated with the SCENE
      */
-    private static final int DEFAULT_SCENE_WIDTH = 900;
-    private static final int DEFAULT_SCENE_HEIGHT = 700;
+    private static final int DEFAULT_SCENE_WIDTH = 1100;
+    private static final int DEFAULT_SCENE_HEIGHT = 600;
 
     /**
      * The primary stage refers to the active window. In our design, we always want

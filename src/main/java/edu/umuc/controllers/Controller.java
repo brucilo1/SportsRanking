@@ -256,8 +256,7 @@ public class Controller {
             final FXMLLoader fxmlLoader = new FXMLLoader();
             final Parent schoolRankingPage = fxmlLoader.load(getClass().getResourceAsStream(fxmlUrl));
             final Stage stage = SportsRankingApp.getPrimaryStage();
-            stage.setScene(new Scene(schoolRankingPage));
-            stage.show();
+            stage.getScene().setRoot(schoolRankingPage);
         } catch (IOException ex) {
             LOG.error("Exception in loadPage", ex);
         }

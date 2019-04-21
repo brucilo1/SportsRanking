@@ -1,13 +1,9 @@
 package edu.umuc.controllers;
 
 import edu.umuc.models.RankWeight;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
+/**
+ * This class is the controller for the Manage Weights page
+ */
 public class ManageWeightsController extends Controller implements Initializable {
     private static final Logger LOG = LoggerFactory.getLogger(ManageWeightsController.class);
     private static final String DEFAULT_RANK_WEIGHT_YAML ="defaultRankWeight.yaml";
@@ -35,6 +34,9 @@ public class ManageWeightsController extends Controller implements Initializable
     @FXML
     private TextField avgPtsDiffWeight;
 
+    /**
+     * Default Constructor
+     */
     public ManageWeightsController() { }
     
     @Override
@@ -42,6 +44,9 @@ public class ManageWeightsController extends Controller implements Initializable
         initializeTextFields();
     }
 
+    /**
+     * Initializes the rank weights text fields
+     */
     private void initializeTextFields() {
         final RankWeight rankWeight = super.loadRankWeight(SAVED_RANK_WEIGHT_YAML);
         setRankWeight(rankWeight);

@@ -77,8 +77,8 @@ class GetDataThread implements Runnable {
                 int lossCount = 0;
                 int pointsDifference = 0;
                 int gameCount = 0;
-                float averagePointDifference = 0;
-                String schoolPath ="";
+                float averagePointDifference;
+                String schoolPath;
                 
                 /**
                  * The URL to the school's sport data for the specified year
@@ -142,8 +142,8 @@ class GetDataThread implements Runnable {
                             int dashLocation = text.indexOf("-");
 
                             if ((winOrLoss == 'W' || winOrLoss == 'L') && dashLocation != -1) {
-                                int score = 0;
-                                int opponentScore = 0;
+                                int score;
+                                int opponentScore;
                                 int firstScore = cleanScore(text.substring(3, dashLocation).trim());
                                 String secondHalf = text.substring(dashLocation+1).trim();
                                 int spaceLocation = secondHalf.indexOf(" ");
@@ -194,7 +194,7 @@ class GetDataThread implements Runnable {
 
     /**
      * Takes a string and returns the integer in the string removing known invalid characters
-     * @param scoreString
+     * @param scoreString   The record listed on the website that needs cleaning
      * @return the integer value in the string passed to the method
      */
     private int cleanScore (String scoreString) {

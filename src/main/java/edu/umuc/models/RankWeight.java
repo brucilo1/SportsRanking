@@ -21,9 +21,18 @@ public class RankWeight {
      */
     private float avgOppDifference;
 
+    /**
+     * Default Constructor
+     */
     public RankWeight() {
     }
 
+    /**
+     * Constructor
+     * @param winLoss           Weight assigned to wins and losses
+     * @param oppWins           Weight assigned to opponent wins
+     * @param avgOppDifference  Weight assigned to average opponent point difference
+     */
     public RankWeight(float winLoss, float oppWins, float avgOppDifference) {
         this.winLoss = winLoss;
         this.oppWins = oppWins;

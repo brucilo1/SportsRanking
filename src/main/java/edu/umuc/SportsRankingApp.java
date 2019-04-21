@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 
 import static edu.umuc.controllers.Controller.HOME_PAGE_FXML;
 
+/**
+ * The main class for the High School Sports Ranking System application
+ */
 public class SportsRankingApp extends Application {
     /**
      * Static variables associated with the SCENE
@@ -22,14 +25,27 @@ public class SportsRankingApp extends Application {
      */
     private static Stage primaryStage;
 
+    /**
+     * Sets the primary stage
+     * @param stage     The stage to be saved in the class
+     */
     private void setPrimaryStage(Stage stage) {
         SportsRankingApp.primaryStage = stage;
     }
 
+    /**
+     * Gets the primary stage
+     * @return The primary stage
+     */
     static public Stage getPrimaryStage() {
         return SportsRankingApp.primaryStage;
     }
 
+    /**
+     * Starts the application and loads the main start page
+     * @param primaryStage  The stage to load the main page to
+     * @throws Exception 
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         setPrimaryStage(primaryStage);
@@ -42,6 +58,7 @@ public class SportsRankingApp extends Application {
 
     /**
      * Main class of the application
+     * @param args
      */
     public static void main(String[] args) {
         launch(args);

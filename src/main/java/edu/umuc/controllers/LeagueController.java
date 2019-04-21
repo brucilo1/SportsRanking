@@ -13,23 +13,46 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * This class is the controller for the League page
+ */
 public class LeagueController extends Controller implements Initializable {
 
+    /**
+     * The table for the league data
+     */
     @FXML
     private TableView<FXLeagueTable> tbLeague;
 
+    /**
+     * School name column for the league data table
+     */
     @FXML
     public TableColumn<FXLeagueTable, String> lgSchoolName;
 
+    /**
+     * League name column for the league data table
+     */
     @FXML
     public TableColumn<FXLeagueTable, String> lgLeagueName;
 
+    /**
+     * League weight column for the league data table
+     */
     @FXML
     public TableColumn<FXLeagueTable, Float> lgLeagueFactor;
 
+    /**
+     * Default Constructor
+     */
     public LeagueController() {
     }
 
+    /**
+     * Initializes the form on load
+     * @param location
+     * @param resources 
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         loadLeagueInformation();

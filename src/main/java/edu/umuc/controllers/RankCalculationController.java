@@ -17,8 +17,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * This class is the controller for the Rank Calculation page
+ */
 public class RankCalculationController extends Controller implements Initializable {
 
+    /** 
+     * The School Results TableView and associated columns
+     */
     @FXML
     private TableView<RankCalculationController.FXResultsTable> tbSchoolResults;
 
@@ -49,6 +55,9 @@ public class RankCalculationController extends Controller implements Initializab
     @FXML
     private TableColumn<RankCalculationController.FXResultsTable, String> avgPointDifferential;
 
+    /** 
+     * The Calculation TableView and associated columns
+     */
     @FXML
     private TableView<RankCalculationController.FXCalculationTable> tbCalculation;
 
@@ -78,10 +87,18 @@ public class RankCalculationController extends Controller implements Initializab
 
     @FXML
     private Label lblSchoolName;
-    
+ 
+    /** 
+     * Default constructor
+     */
     public RankCalculationController() {
     }
     
+    /**
+     * Sets up the tables and populates the data
+     * @param location
+     * @param resources 
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         wins.setCellValueFactory(new PropertyValueFactory<>("wins"));
@@ -115,6 +132,9 @@ public class RankCalculationController extends Controller implements Initializab
         tbCalculation.setItems(calculation);
     }
     
+    /** 
+     * Class created for the Results table
+     */
     public class FXResultsTable {
         private final SimpleIntegerProperty wins;
         private final SimpleIntegerProperty losses;
@@ -212,7 +232,10 @@ public class RankCalculationController extends Controller implements Initializab
         }
 
     }
-    
+
+    /** 
+     * Class created for the Calculation table
+     */    
     public class FXCalculationTable {
         private final SimpleStringProperty pointsForWins;
         private final SimpleStringProperty pointsForLosses;

@@ -27,15 +27,38 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 
+/**
+ * This class is the controller for all pages without a specific controller
+ */
 public class Controller {
     /**
-     * Static FXML file locations
+     * Location of the school ranking fxml page
      */
     public static final String SCHOOL_RANKING_FXML = "/SchoolRanking.fxml";
+
+    /**
+     * Location of the leagues fxml page
+     */
     public static final String LEAGUES_FXML = "/Leagues.fxml";
+    
+    /**
+     * Location of the home fxml page
+     */
     public static final String HOME_PAGE_FXML = "/HomePage.fxml";
+
+    /**
+     * Location of the rank calculation fxml page
+     */
     public static final String RANK_CALC_PAGE_FXML = "/RankCalculation.fxml";
+
+    /**
+     * Location of the manage weights fxml page
+     */
     private static final String MANAGE_WEIGHTS_FXML = "/ManageWeights.fxml";
+
+    /**
+     * Location of the config properties file
+     */
     private static final String CONFIG_PROPERTIES = "/config.properties";
 
     /**
@@ -44,41 +67,96 @@ public class Controller {
     private static final Logger LOG = LoggerFactory.getLogger(Controller.class);
 
     /**
-     * Default values
+     * Default league weight
      */
     private final static Float DEFAULT_LEAGUE_WEIGHT = 1F;
+
+    /**
+     * Default league name
+     */
     private final static String DEFAULT_LEAGUE_NAME = "NONE";
 
     /**
-     * Configuration files
+     * General properties filename
      */
     private static final String GENERAL_PROPERTIES_YAML = "generalProperties.yaml";
+
+    /**
+     * leagues yaml filename
+     */
     private final static String LEAGUES_YAML = "leagues.yaml";
+
+    /**
+     * schools yaml filename
+     */
     private final static String SCHOOLS_YAML = "schools.yaml";
+    
+    /**
+     * sports yaml filename
+     */
     private final static String SPORTS_YAML = "sports.yaml";
 
+    /**
+     * List of sport objects to be used by all controller objects
+     */
     private List<Sport> sports = new ArrayList<>();
 
     /**
-     * Static class attributes that allows data to be accessible between pages
+     * List of league objects to be used by all controller objects
      */
     private static final List<League> leagues = new ArrayList<>();
+
+    /**
+     * List of school objects to be used by all controller objects
+     */
     private static final List<School> schools = new ArrayList<>();
+
+    /**
+     * RankWeight object to be used by all controller objects
+     */
     private static RankWeight rankWeight;
+
+    /**
+     * Stores the school that was selected on the School Ranking page for use by RankCalculationController
+     */
     private static School selectedSchool;
+
+    /**
+     * Stores the league of the school that was selected on the School Ranking page for use by RankCalculationController
+     */
     private static League selectedLeague;
+
+    /**
+     * Stores the sport selected on the School Ranking page to reload when returning to the school ranking page
+     */
     private static Sport sportSelected;
+    
+    /**
+     * Stores the year that was selected in the School Ranking page to reload when returning to the school ranking page
+     */
     private static String yearSelected;
+    
+    /**
+     * Stores the general properties
+     */
     private static GeneralProperties generalProperties;
+    
+    /**
+     * Marked true when the schools have already been ranked
+     */
     private static boolean schoolsRanked = false;
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat( "0.00" );
     
+    /**
+     * Stores the path for the location of the config and yaml files
+     */
     protected String configPath;
 
     /**
-     * Controller Constructor. This application depends on successfully reading the contents of
-     * the YAML files. If the system is not able to read these YAML files for any reason, the
+     * Constructor 
+     * This application depends on successfully reading the contents of the YAML files. 
+     * If the system is not able to read these YAML files for any reason, the
      * application will exit.
      */
     public Controller() {
@@ -152,7 +230,10 @@ public class Controller {
     @FXML
     private Button btnSaveWeights;
 
-
+    /**
+     * Handles all button clicks not handled by other controllers
+     * @param event 
+     */
     @FXML
     private void processButtonClickEvents(ActionEvent event){
         if (event.getSource() == btnSchoolsRanking) {
@@ -168,6 +249,7 @@ public class Controller {
 
     /**
      * Common method to load the corresponding FXML page
+     * @param fxmlUrl   The location of the fxml page to load
      */
     protected void loadPage(String fxmlUrl) {
         try {
@@ -176,13 +258,15 @@ public class Controller {
             final Stage stage = SportsRankingApp.getPrimaryStage();
             stage.setScene(new Scene(schoolRankingPage));
             stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ex) {
+            LOG.error("Exception in loadPage", ex);
         }
     }
 
     /**
      * Added method for re-usability purposes in child classes
+     * @param yamlName  The file location of the RankWeights yaml to open
+     * @return  The RankWeight object created from the yaml file
      */
     protected RankWeight loadRankWeight(String yamlName) {
         RankWeight returnRankWeight = new RankWeight();
@@ -211,6 +295,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Loads the general properties file
+     */
     private void loadGeneralPropertiesData() {
         final File generalPropertiesFile = new File(configPath, GENERAL_PROPERTIES_YAML);
         try (InputStream inputStream = new FileInputStream(generalPropertiesFile)) {
@@ -224,7 +311,10 @@ public class Controller {
     public static GeneralProperties getGeneralProperties() {
         return generalProperties;
     }
-
+   
+    /**
+     * Loads the league data from the league yaml file
+     */
     private void loadLeaguesData(){
         File file = new File(configPath, LEAGUES_YAML);
         try (InputStream inputStream = new FileInputStream(file)) {
@@ -234,9 +324,9 @@ public class Controller {
             iterableLeagues.forEach(iterableLeague -> {
                 final Map<String, Object> map = ((HashMap<String, Object>) iterableLeague);
                 final League league = new League((String)map.get("leagueId"), (String)map.get("name"), ((Double)map.get("weight")).floatValue());
-                final List<HashMap<String, String>> schools = (List)(map.get("schools"));
+                final List<HashMap<String, String>> leagueSchools = (List)(map.get("schools"));
 
-                league.setSchools(schools.stream().map(school -> (school).get("name")).collect(Collectors.toList()));
+                league.setSchools(leagueSchools.stream().map(school -> (school).get("name")).collect(Collectors.toList()));
                 leagues.add(league);
             });
 
@@ -246,6 +336,9 @@ public class Controller {
         }
     }
     
+    /**
+     * Loads the school data from the school yaml file
+     */
     private void loadSchoolsData(){
         File file = new File(configPath, SCHOOLS_YAML);
         try (InputStream inputStream = new FileInputStream(file)) {
@@ -264,6 +357,9 @@ public class Controller {
         }
     }
     
+    /**
+     * Loads the sports data from the sports yaml file
+     */
     private void loadSportsData() {
         File file = new File(configPath, SPORTS_YAML);
         try (InputStream inputStream = new FileInputStream(file)) {
@@ -294,6 +390,11 @@ public class Controller {
         return sports;
     }
 
+    /**
+     * Gets the league weight for a specific school
+     * @param schoolName    The school to get a league weight for
+     * @return              The league weight for the specific school
+     */
     public static Float getLeagueWeightForSchool (String schoolName){
         return leagues.stream()
                 .filter(league -> league.containsSchool(schoolName))
@@ -302,6 +403,11 @@ public class Controller {
                 .orElse(DEFAULT_LEAGUE_WEIGHT);
     }
 
+    /**
+     * Gets the league name for a specific school
+     * @param schoolName    The school to find the league name for
+     * @return              The league name for the specific school
+     */
     public static String getLeagueNameForSchool (String schoolName){
         return leagues.stream()
                 .filter(league -> league.containsSchool(schoolName))
@@ -318,6 +424,11 @@ public class Controller {
         Controller.rankWeight = rankWeight;
     }
 
+    /**
+     * Gets the League object for a specific school
+     * @param schoolName    The school to get the league object for
+     * @return              The league for the specific school
+     */
     public static League getLeagueForSchool (String schoolName){
         for (League singleLeague : leagues) {
             if (singleLeague.getSchools().contains(schoolName)) {
@@ -327,6 +438,9 @@ public class Controller {
         return null;
     }
 
+    /**
+     * Resets the ranking data for all schools prior to another ranking
+     */
     public static void initializeSchools() {
         for (School school : schools) {
             school.initialize();
@@ -372,5 +486,4 @@ public class Controller {
     public static void setYearSelected(String yearSelected) {
         Controller.yearSelected = yearSelected;
     }
-    
 }

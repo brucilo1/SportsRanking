@@ -79,6 +79,8 @@ public class ScrapeData {
 
     /**
      * Calculates total rank points per school
+     * @param rankWeight    The rankweight objects to use for the calculation
+     * @param schools       The schools to rank
      */
     public static void calculateTotalPoints(RankWeight rankWeight, List<School> schools) {
         schools.stream()
@@ -88,6 +90,7 @@ public class ScrapeData {
 
     /**
      * Sorts schools list by rank points
+     * @param schools The schools to sort
      */
     public static void sortSchools(List<School> schools) {
         schools.sort((school1, school2) -> (int) ((school2.getRankPoints() * 100) - (school1.getRankPoints() * 100)));
